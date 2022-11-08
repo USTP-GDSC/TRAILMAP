@@ -1,0 +1,9 @@
+    - family: QRegular
+      fonts:
+        - asset: assets/fonts/Quicksand-Regular.ttf
+    - family: QBold
+      fonts:
+        - asset: assets/fonts/Quicksand-SemiBold.ttf
+
+
+
