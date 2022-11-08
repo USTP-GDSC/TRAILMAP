@@ -38,9 +38,12 @@ class _ScreenState extends State<LoadingScreenToLogin> {
                 ),
                 const Padding(
                   padding: EdgeInsets.all(22.0),
-                  child: Image(
-                    width: 300,
-                    image: AssetImage('assets/images/USTP 1.png'),
+                  child: Hero(
+                    tag: 'ustp-logo',
+                    child: Image(
+                      width: 300,
+                      image: AssetImage('assets/images/USTP 1.png'),
+                    ),
                   ),
                 ),
                 const Expanded(

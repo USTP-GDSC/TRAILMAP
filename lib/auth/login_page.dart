@@ -18,9 +18,12 @@ class LoginPage extends StatelessWidget {
               const SizedBox(
                 height: 30,
               ),
-              Image.asset(
-                'assets/images/USTP 1.png',
-                width: 250,
+              Hero(
+                tag: 'ustp-logo',
+                child: Image.asset(
+                  'assets/images/USTP 1.png',
+                  width: 250,
+                ),
               ),
               const SizedBox(
                 height: 40,
