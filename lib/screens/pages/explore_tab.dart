@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ustp_trailmap/widgets/search_delegate/search_faculty.dart';
 
 import '../../widgets/text_widget.dart';
 
@@ -26,16 +27,7 @@ class _ExploreTabState extends State<ExploreTab> {
               padding: const EdgeInsets.fromLTRB(30, 70, 30, 0),
               child: GestureDetector(
                 onTap: () {
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return Dialog(
-                          child: Image.asset(
-                            'assets/images/legends.png',
-                            fit: BoxFit.cover,
-                          ),
-                        );
-                      });
+                  showSearch(context: context, delegate: SearchFaculty());
                 },
                 child: Container(
                   height: 55,
@@ -63,6 +55,31 @@ class _ExploreTabState extends State<ExploreTab> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(100),
                     border: Border.all(color: Colors.black),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 130, right: 30),
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: IconButton(
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return Dialog(
+                            child: Image.asset(
+                              'assets/images/legend.png',
+                              fit: BoxFit.cover,
+                            ),
+                          );
+                        });
+                  },
+                  icon: const Icon(
+                    Icons.info,
+                    size: 32,
+                    color: Colors.white,
                   ),
                 ),
               ),

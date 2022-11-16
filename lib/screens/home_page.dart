@@ -1,8 +1,9 @@
 import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:ustp_trailmap/screens/pages/about_tab.dart';
+import 'package:ustp_trailmap/screens/pages/buildings_tab.dart';
 import 'package:ustp_trailmap/screens/pages/explore_tab.dart';
 import 'package:ustp_trailmap/widgets/drawer/drawer_widget.dart';
-import 'package:ustp_trailmap/widgets/text_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -43,16 +44,10 @@ class _HomePageState extends State<HomePage> {
       body: Center(
         child: IndexedStack(
           index: selectedIndex,
-          children: [
-            const ExploreTab(),
-            Center(
-              child: TextRegular(
-                  text: 'Insert Here', fontSize: 18, color: Colors.black),
-            ),
-            Center(
-              child: TextRegular(
-                  text: 'Insert Here', fontSize: 18, color: Colors.black),
-            ),
+          children: const [
+            ExploreTab(),
+            BuildingsTab(),
+            AboutTab(),
           ],
         ),
       ),
