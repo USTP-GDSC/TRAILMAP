@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class ExploreTab extends StatelessWidget {
-  const ExploreTab({super.key});
+class CommunityTab extends StatelessWidget {
+  const CommunityTab({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -9,7 +9,7 @@ class ExploreTab extends StatelessWidget {
       height: double.infinity,
       width: double.infinity,
       decoration: const BoxDecoration(
-        color: Colors.teal,
+        color: Colors.orange,
       ),
       child: const Text("My Awesome Border"),
     );

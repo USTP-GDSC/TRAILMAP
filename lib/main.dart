@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:ustp_trailmap/screens/splash/splash_to_login.dart';
+import 'screens/home_page.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+void main() => runApp(const Main());
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class Main extends StatelessWidget {
+  const Main({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'USTP Trail Map',
-      home: LoadingScreenToLogin(),
+    return const MaterialApp(
+      title: 'USTP Trailmap',
+      home: HomePage(),
     );
   }
 }

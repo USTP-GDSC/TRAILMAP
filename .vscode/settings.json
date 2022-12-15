@@ -1,0 +1,15 @@
+{
+	"files.exclude": {
+		"windows": true,
+		"web": true,
+		"macos": true,
+		"linux": true,
+		"ios": true,
+		"build": true,
+		"android": true,
+		".idea": true,
+		".dart_tool": true,
+		"analysis_options.yaml": true,
+		".metadata": true
+	}
+}
