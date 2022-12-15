@@ -1,16 +1,65 @@
-# ustp_trailmap
+# USTP TrailMap
+A cross-platform 2D vicinity map of the University of Science and Technology of Southern Philippines in Cagayan De Oro city.
 
-A new Flutter project.
+# Getting Started
 
-## Getting Started
+#### Install [Flutter v3.3.9](https://docs.flutter.dev/development/tools/sdk/releases)
 
-This project is a starting point for a Flutter application.
+#### Clone this repository branch
 
-A few resources to get you started if this is your first Flutter project:
+```bash
+  git clone -b main https://github.com/gdscustp/USTP-Trail-Map.git
+```
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+#### Development Structure
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+```
+ustp_trailmap
+
+├─ .vscode
+│  └─ // custom ide settings
+
+├─ assets
+│  ├─ fonts
+│  │  ├─ // custom fonts
+│  └─ images
+│     ├─ // custom images
+
+├─ lib
+│  ├─ auth
+│  │  ├─ // authentication widgets
+│  ├─ model
+│  │  └─ // custom models
+│  ├─ plugins
+│  │  └─ // custom plugin
+│  ├─ screens
+|  |  ├─ // home here
+│  │  ├─ drawer_pages
+│  │  │  ├─ // drawer widgets
+│  │  ├─ pages
+│  │  │  ├─ // tabs here
+│  │  └─ splash
+│  │     └─ // splash screen
+│  ├─ services
+│  │  └─ authentication
+│  │     ├─ // authentication action
+│  ├─ utils
+│  │  └─ // custom utilities
+│  └─ widgets
+│     ├─ // custom widgets
+
+├─ pubspec.lock // misc package info
+├─ pubspec.yaml // user package info
+├─ README.md    // github read me
+
+
+```
+
+<hr>
+
+# Media
+### Commit 10: migrated to v3.3.9 | updated ui
+![image](https://user-images.githubusercontent.com/26486389/207768795-265d61a9-0d18-4ef5-b3d2-1607f1ba2411.png)
+
+
