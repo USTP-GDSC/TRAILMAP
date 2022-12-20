@@ -1,6 +1,6 @@
-import 'dart:io'; // Add this import.
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:webview_flutter_plus/webview_flutter_plus.dart';
 
 class TrailMap extends StatefulWidget {
   const TrailMap({super.key});
@@ -13,15 +13,15 @@ class _TrailMapState extends State<TrailMap> {
   @override
   void initState() {
     if (Platform.isAndroid) {
-      WebView.platform = SurfaceAndroidWebView();
+      WebViewPlus.platform = SurfaceAndroidWebView();
     }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return const WebView(
-      initialUrl: 'https://flutter.dev',
+    return const WebViewPlus(
+      initialUrl: 'assets/sketch/trailmap.html',
       javascriptMode: JavascriptMode.unrestricted,
     );
   }

@@ -38,8 +38,8 @@ dependencies:
     google_nav_bar: ^5.0.6
     tabler_icons: ^0.0.3
     sliding_up_panel: ^2.0.0+1
-    webview_flutter: 3.0.4
     slide_indexed_stack: ^0.0.1
+    webview_flutter_plus: ^0.3.0+2
 
 dev_dependencies:
     flutter_test:
@@ -63,9 +63,9 @@ flutter:
     uses-material-design: true
 
     # To add assets to your application, add an assets section, like this:
-    # assets:
-    #    - assets/images/
-    #   - images/a_dot_ham.jpeg
+    assets:
+      - assets/sketch/
+      - assets/images/
 
     # An image asset can refer to one or more resolution-specific "variants", see
     # https://flutter.dev/assets-and-images/#resolution-aware
