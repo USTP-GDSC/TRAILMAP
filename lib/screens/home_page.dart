@@ -78,7 +78,7 @@ class _HomePageState extends State<HomePage> {
     // sheet->(transition->page)
     return (SlidingUpPanel(
       backdropEnabled: true,
-      maxHeight: 300,
+      maxHeight: 320,
       minHeight: 15,
       color: Colors.white,
       borderRadius: const BorderRadius.only(
