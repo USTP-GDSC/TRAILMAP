@@ -91,10 +91,7 @@ class _HomePageState extends State<HomePage> {
   Widget _pageTransition() {
     // transition->page
     return (BottomBarPageTransition(
-      builder: (_, index) => Center(
-        // the actual page widgets
-        child: _tabOptions.elementAt(index),
-      ),
+      builder: (_, index) => _tabOptions.elementAt(index),
       currentIndex: _selectedPage,
       totalLength: _tabOptions.length,
       transitionType: TransitionType.slide,

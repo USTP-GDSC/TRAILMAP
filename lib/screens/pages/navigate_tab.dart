@@ -5,13 +5,16 @@ class NavigateTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: double.infinity,
-      width: double.infinity,
-      decoration: const BoxDecoration(
-        color: Colors.deepPurple,
-      ),
-      child: const Text("My Awesome Border"),
-    );
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      return Container(
+        height: constraints.maxHeight - 85,
+        width: double.infinity,
+        decoration: const BoxDecoration(
+          color: Colors.deepPurple,
+        ),
+        child: const Text("My Awesome Border"),
+      );
+    });
   }
 }
