@@ -13,8 +13,6 @@ import 'pages/profile_page.dart';
 import '../components/bottom_drawer.dart';
 import '../components/bottom_navbar.dart';
 
-import '../plugins/fade_indexed_stack.dart';
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -22,11 +20,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>
-    with AutomaticKeepAliveClientMixin<HomeScreen> {
-  @override
-  bool get wantKeepAlive => true;
-
+class _HomeScreenState extends State<HomeScreen> {
   int _selectedPage = 2;
 
   // pages
@@ -64,8 +58,6 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
-
     return Scaffold(
         // backgroundColor: const Color(0xFF2f3542),
         backgroundColor: Colors.white,
@@ -94,12 +86,6 @@ class _HomeScreenState extends State<HomeScreen>
       duration: const Duration(milliseconds: 200),
       children: _pageOptions,
     );
-
-    // return FadeIndexedStack(
-    //   duration: const Duration(milliseconds: 200),
-    //   index: _selectedPage,
-    //   children: _pageOptions,
-    // );
   }
 
   void _handlePageSwitch(index) {
