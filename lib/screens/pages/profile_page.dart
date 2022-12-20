@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-Widget profileTab() {
+Widget profilePage() {
   return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
     return Container(
       height: constraints.maxHeight - 80,
       width: constraints.maxWidth,
       decoration: const BoxDecoration(
-        color: Colors.green,
+        color: Colors.white,
       ),
       child: const Text("My Awesome Border"),
     );

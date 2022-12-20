@@ -37,8 +37,9 @@ dependencies:
     cupertino_icons: ^1.0.2
     google_nav_bar: ^5.0.6
     tabler_icons: ^0.0.3
-    bottom_bar_page_transition: ^2.0.0
     sliding_up_panel: ^2.0.0+1
+    webview_flutter: 3.0.4
+    slide_indexed_stack: ^0.0.1
 
 dev_dependencies:
     flutter_test:
