@@ -29,7 +29,7 @@ class BottomDrawer extends StatelessWidget {
 
   Widget _sheetNavigation() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(30, 20, 30, 30),
+      padding: const EdgeInsets.fromLTRB(25, 25, 25, 25),
       child: Column(
         children: [
           Row(
@@ -51,20 +51,20 @@ class BottomDrawer extends StatelessWidget {
                       const Icon(
                         TablerIcons.map_pin,
                         color: Color(0xFFB8B8B8),
-                        size: 42,
+                        size: 35,
                       ),
                       Container(
                         margin: const EdgeInsets.only(top: 5, bottom: 5),
                         child: const Icon(
                           TablerIcons.dots_vertical,
                           color: Color(0xFFB8B8B8),
-                          size: 42,
+                          size: 35,
                         ),
                       ),
                       const Icon(
                         TablerIcons.building_skyscraper,
                         color: Color(0xFFB8B8B8),
-                        size: 42,
+                        size: 35,
                       ),
                     ],
                   ),
@@ -76,7 +76,8 @@ class BottomDrawer extends StatelessWidget {
                         margin: const EdgeInsets.only(top: 10),
                         child: TextField(
                           decoration: InputDecoration(
-                              contentPadding: const EdgeInsets.all(20),
+                              contentPadding:
+                                  const EdgeInsets.fromLTRB(20, 16, 15, 16),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(50.0),
                                 borderSide: const BorderSide(
@@ -98,7 +99,8 @@ class BottomDrawer extends StatelessWidget {
                         margin: const EdgeInsets.only(top: 30),
                         child: TextField(
                           decoration: InputDecoration(
-                              contentPadding: const EdgeInsets.all(20),
+                              contentPadding:
+                                  const EdgeInsets.fromLTRB(20, 16, 15, 16),
                               // default look
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(50.0),
@@ -140,8 +142,8 @@ class BottomDrawer extends StatelessWidget {
                   style: TextStyle(color: Colors.white, fontSize: 17),
                 ),
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF9980FA),
-                    padding: const EdgeInsets.all(24),
+                    backgroundColor: const Color(0xFF9980FA),
+                    padding: const EdgeInsets.fromLTRB(0, 18, 0, 18),
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     shape: const StadiumBorder()),
               ),

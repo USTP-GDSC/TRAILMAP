@@ -23,7 +23,7 @@ class BottomNavBar extends StatelessWidget {
               child: (Container(
             constraints: const BoxConstraints(maxWidth: 850),
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+              padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
               child: GNav(
                 // actions
                 selectedIndex: selectedIndex,
