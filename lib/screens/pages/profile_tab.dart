@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 
-class ProfileTab extends StatelessWidget {
-  const ProfileTab({super.key});
-
-  @override
-  Widget build(BuildContext context) {
+Widget profileTab() {
+  return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
     return Container(
-      height: double.infinity,
-      width: double.infinity,
+      height: constraints.maxHeight - 80,
+      width: constraints.maxWidth,
       decoration: const BoxDecoration(
         color: Colors.green,
       ),
       child: const Text("My Awesome Border"),
     );
-  }
+  });
 }

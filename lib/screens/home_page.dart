@@ -10,8 +10,8 @@ import './pages/navigate_tab.dart';
 import './pages/community_tab.dart';
 import './pages/profile_tab.dart';
 
-import '../widgets/bottom_drawer.dart';
-import '../widgets/bottom_navbar.dart';
+import '../components/bottom_drawer.dart';
+import '../components/bottom_navbar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -24,12 +24,12 @@ class _HomePageState extends State<HomePage> {
   int _selectedPage = 2;
 
   // pages
-  static const List<Widget> _tabOptions = <Widget>[
-    HomeTab(),
-    ExploreTab(),
-    NavigateTab(),
-    CommunityTab(),
-    ProfileTab()
+  static final List<Widget> _tabOptions = <Widget>[
+    homeTab(),
+    exploreTab(),
+    navigateTab(),
+    communityTab(),
+    profileTab()
   ];
 
   // tabs
@@ -78,8 +78,8 @@ class _HomePageState extends State<HomePage> {
     // sheet->(transition->page)
     return (SlidingUpPanel(
       backdropEnabled: true,
-      maxHeight: 325,
-      minHeight: 20,
+      maxHeight: 300,
+      minHeight: 15,
       color: Colors.white,
       borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(8), topRight: Radius.circular(8)),

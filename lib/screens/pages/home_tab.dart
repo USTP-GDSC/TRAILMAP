@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 
-class HomeTab extends StatelessWidget {
-  const HomeTab({super.key});
-
-  @override
-  Widget build(BuildContext context) {
+Widget homeTab() {
+  return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
     return Container(
-      height: double.infinity,
-      width: double.infinity,
+      height: constraints.maxHeight - 80,
+      width: constraints.maxWidth,
       decoration: const BoxDecoration(
         color: Colors.red,
       ),
       child: const Text("My Awesome Border"),
     );
-  }
+  });
 }

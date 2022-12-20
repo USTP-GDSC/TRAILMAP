@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 
-class ExploreTab extends StatelessWidget {
-  const ExploreTab({super.key});
-
-  @override
-  Widget build(BuildContext context) {
+Widget exploreTab() {
+  return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
     return Container(
-      height: double.infinity,
-      width: double.infinity,
+      height: constraints.maxHeight - 80,
+      width: constraints.maxWidth,
       decoration: const BoxDecoration(
         color: Colors.teal,
       ),
       child: const Text("My Awesome Border"),
     );
-  }
+  });
 }
