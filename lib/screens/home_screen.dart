@@ -68,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _pageWithDrawerOverlay() {
     // sheet->(transition->page)
     return (SlidingUpPanel(
-      backdropEnabled: true,
+      backdropEnabled: false,
       maxHeight: 320,
       minHeight: 15,
       color: Colors.white,

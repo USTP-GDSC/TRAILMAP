@@ -39,7 +39,8 @@ dependencies:
     tabler_icons: ^0.0.3
     sliding_up_panel: ^2.0.0+1
     slide_indexed_stack: ^0.0.1
-    webview_flutter_plus: ^0.3.0+2
+    url_launcher: ^6.1.7
+    flutter_inappwebview: ^6.0.0-beta.22
 
 dev_dependencies:
     flutter_test:
@@ -64,8 +65,9 @@ flutter:
 
     # To add assets to your application, add an assets section, like this:
     assets:
-      - assets/sketch/
-      - assets/images/
+        - assets/sketch/trailmap.html
+        - assets/test.html
+        - assets/sketch/model/trailmap_v3.glb
 
     # An image asset can refer to one or more resolution-specific "variants", see
     # https://flutter.dev/assets-and-images/#resolution-aware

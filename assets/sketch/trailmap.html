@@ -1,13 +1,269 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet" href="./trailmap.css">
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<style>
+		html,
+		body {
+			margin: 0;
+			padding: 0;
+		}
+	</style>
 </head>
-<body>
-    <h1>hello world</h1>
-</body>
-</html>
+<body></body>
+
+<script
+	async
+	src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"
+></script>
+
+<script type="importmap">
+	{
+		"imports": {
+			"three": "https://unpkg.com/three@0.147.0/build/three.module.js",
+			"three/addons/": "https://unpkg.com/three@0.147.0/examples/jsm/",
+			"camera-controls": "https://unpkg.com/camera-controls@1.37.4/dist/camera-controls.module.js"
+		}
+	}
+</script>
+
+<!-- MAP SKETCH -->
+<script type="module">
+	import * as THREE from 'three';
+	import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+	import CameraControls from 'camera-controls';
+
+	CameraControls.install({ THREE });
+
+	class Scene extends THREE.Scene {
+		constructor() {
+			super();
+			this.fog = new THREE.FogExp2(0xeeeeee, 0.0004);
+			this.background = new THREE.Color(0xeeeeee);
+		}
+	}
+
+	class Camera extends THREE.PerspectiveCamera {
+		constructor() {
+			super(75, window.innerWidth / window.innerHeight, 0.1, 5000);
+			this.position.y = 2500;
+		}
+	}
+
+	class Renderer extends THREE.WebGLRenderer {
+		constructor() {
+			super({ antialias: true });
+			this.shadowMap.enabled = true;
+			this.shadowMap.type = THREE.VSMShadowMap;
+			this.outputEncoding = THREE.sRGBEncoding;
+			this.setSize(window.innerWidth, window.innerHeight);
+		}
+	}
+
+	class Control extends CameraControls {
+		constructor(camera, renderer) {
+			super(camera, renderer.domElement);
+			this.touches.one = CameraControls.ACTION.TOUCH_TRUCK;
+			this.touches.two = CameraControls.ACTION.TOUCH_DOLLY;
+			this.mouseButtons.left = CameraControls.ACTION.TRUCK;
+			this.mouseButtons.right = CameraControls.ACTION.ROTATE;
+			this.mouseButtons.middle = CameraControls.ACTION.NONE;
+			this.draggingDampingFactor = 0.1;
+			this.verticalDragToForward = true;
+			this.azimuthRotateSpeed = 0.5;
+			this.dampingFactor = 0.1;
+			this.maxPolarAngle = 0.8;
+			this.minDistance = 570;
+			this.maxDistance = 1300;
+			this.dollySpeed = 0.5;
+			this.setBoundary(
+				// truck constraint
+				new THREE.Box3(
+					new THREE.Vector3(-500, -500, -650),
+					new THREE.Vector3(700, 0, 300)
+				)
+			);
+		}
+
+		gotoStart() {
+			this.setPosition(0, 900, 100, true);
+			this.polarAngle = 0.001;
+		}
+	}
+
+	class AmbientLight extends THREE.AmbientLight {
+		constructor(scene) {
+			super(0x222222, 2);
+			this.scene = scene;
+			this.scene.add(this);
+		}
+	}
+
+	class DirectionalLight extends THREE.DirectionalLight {
+		constructor(scene, x, y, z, intensity, castShadow) {
+			super(0xaabbff);
+			this.scene = scene;
+			this.position.x = x;
+			this.position.y = y;
+			this.position.z = z;
+			this.intensity = intensity;
+			this.castShadow = castShadow;
+			this.shadow.camera.top = 1000;
+			this.shadow.camera.bottom = -1000;
+			this.shadow.camera.left = -1000;
+			this.shadow.camera.right = 1000;
+			this.shadow.camera.near = 1;
+			this.shadow.camera.far = 2000;
+			this.shadow.mapSize.set(512, 512);
+			this.scene.add(this);
+		}
+		debug() {
+			return new THREE.CameraHelper(this.shadow.camera);
+		}
+	}
+
+	class Plane extends THREE.Mesh {
+		constructor(scene) {
+			super();
+			this.scene = scene;
+			this.geometry = new THREE.PlaneGeometry(1, 1, 1);
+			this.material = new THREE.MeshPhongMaterial({ color: 0x2f3542 });
+			this.position.x = 0;
+			this.position.y = 0;
+			this.position.z = 0;
+			this.scale.x = 10000;
+			this.scale.y = 10000;
+			this.scale.z = 10000;
+			this.castShadow = true;
+			this.receiveShadow = true;
+			this.rotation.x = -(Math.PI / 2);
+			this.scene.add(this);
+		}
+	}
+
+	class World {
+		constructor(scene, whenLoadProgress, whenLoadComplete) {
+			this.scene = scene;
+			this.model = './model/trailmap_v3.glb';
+			this.handleLoadComplete = whenLoadComplete;
+			this.handleLoadProgress = whenLoadProgress;
+
+			new GLTFLoader().load(
+				this.model,
+				this.onLoad,
+				this.onProgress,
+				this.onError
+			);
+		}
+
+		onLoad = world => {
+			let meshGroup = world.scene.children;
+
+			meshGroup = meshGroup.filter(mesh => {
+				// don't include in renderer
+				return mesh.name !== 'Sphere' && mesh.name !== 'Human_Scale';
+			});
+
+			meshGroup.forEach(mesh => {
+				mesh.material = new THREE.MeshPhongMaterial({
+					color: 0xcccccc,
+					opacity: 0.8,
+					transparent: true,
+				});
+
+				mesh.castShadow = true;
+				mesh.receiveShadow = true;
+				mesh.userData.id = mesh.name;
+				mesh.userData.isEntity = true;
+			});
+
+			world.scene.children = meshGroup;
+			world.scene.scale.x = 5;
+			world.scene.scale.y = 5;
+			world.scene.scale.z = 5;
+			world.scene.position.y = 1;
+
+			this.scene.add(world.scene);
+			this.handleLoadComplete();
+		};
+
+		onProgress = event => {
+			const percentFetched =
+				((event.loaded / event.total) * 100).toFixed(2) + '%';
+			this.handleLoadProgress(percentFetched);
+		};
+
+		onError = error => console.log(error);
+	}
+
+	const scene = new Scene();
+	const camera = new Camera();
+	const renderer = new Renderer();
+	const control = new Control(camera, renderer);
+
+	new AmbientLight(scene);
+	new DirectionalLight(scene, 700, 1000, 200, 0.6, true);
+	new DirectionalLight(scene, -700, -1000, -200, 0.2, false);
+
+	new Plane(scene);
+
+	let fps = 30;
+	let times = [];
+	let pixelRatio = 1;
+
+	let timestamp = 1;
+	let ptimestamp = 1;
+	let startBuffer = false;
+
+	new World(
+		scene,
+		percentFetched => {
+			console.log(percentFetched);
+		},
+		() => {
+			control.gotoStart();
+			setTimeout(() => {
+				startBuffer = true;
+				console.log('buffer started');
+			}, 1000);
+		}
+	);
+
+	renderer.render(scene, camera);
+	document.getElementsByTagName('BODY')[0].appendChild(renderer.domElement);
+
+	const drawLoop = () => {
+		// delta required for inertia
+		timestamp = performance.now();
+
+		const delta = (timestamp - ptimestamp) / 1000;
+
+		const hasControlsUpdated = control.update(delta);
+
+		requestAnimationFrame(drawLoop);
+
+		// calculate fps
+		while (times.length > 0 && times[0] <= timestamp - 1000) {
+			times.shift();
+		}
+		times.push(timestamp);
+		fps = times.length;
+
+		if (hasControlsUpdated) {
+			renderer.render(scene, camera);
+		} else if (!hasControlsUpdated && startBuffer) {
+			// adjust pixel ratio
+			if (pixelRatio >= 0.7 && fps < 25) {
+				pixelRatio = Number((pixelRatio - 0.1).toPrecision(2));
+				renderer.setPixelRatio(pixelRatio);
+				renderer.render(scene, camera);
+			} else if (pixelRatio < 1 && fps >= 50) {
+				pixelRatio = Number((pixelRatio + 0.1).toPrecision(2));
+				renderer.setPixelRatio(pixelRatio);
+				renderer.render(scene, camera);
+			}
+		}
+
+		ptimestamp = timestamp;
+	};
+	drawLoop();
+</script>

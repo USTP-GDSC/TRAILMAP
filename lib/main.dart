@@ -1,16 +1,26 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+
 import 'screens/home_screen.dart';
 
-void main() => runApp(const Main());
+final InAppLocalhostServer localhostServer =
+    InAppLocalhostServer(documentRoot: 'assets/sketch');
 
-class Main extends StatelessWidget {
-  const Main({Key? key}) : super(key: key);
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'USTP Trailmap',
-      home: HomeScreen(),
-    );
+  if (!kIsWeb) {
+    // start the localhost server
+    await localhostServer.start();
   }
+
+  // if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
+  //   await InAppWebViewController.setWebContentsDebuggingEnabled(true);
+  // }
+
+  runApp(const MaterialApp(
+    title: 'USTP Trailmap',
+    home: HomeScreen(),
+  ));
 }
