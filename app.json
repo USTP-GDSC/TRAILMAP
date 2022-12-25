@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "ustp_trailmap",
-    "slug": "ustp_trailmap",
+    "name": "ustp-trailmap",
+    "slug": "ustp-trailmap",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
