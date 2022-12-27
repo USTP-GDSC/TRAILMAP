@@ -10,7 +10,7 @@ import {
 import TabSheet from './TabSheet';
 import TabButton from './TabButton';
 
-export default TabBar = ({ state, descriptors, navigation, handleScreen }) => {
+export default TabBar = ({ state, descriptors, navigation }) => {
 	const [translateValue] = useState(new Animated.Value(0));
 	const totalWidth = Dimensions.get('window').width;
 	const tabWidth = totalWidth / state.routes.length;
@@ -65,7 +65,6 @@ export default TabBar = ({ state, descriptors, navigation, handleScreen }) => {
 							}
 
 							animateSlider(index);
-							handleScreen(index);
 						};
 
 						return (

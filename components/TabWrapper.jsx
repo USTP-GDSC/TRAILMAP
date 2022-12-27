@@ -6,23 +6,27 @@ import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
 import TabBar from './TabBar';
 import DemoScreen from '../screens/DemoScreen';
+import NavigateScreen from '../screens/NavigateScreen';
 
-const tabKeys = ['home', 'map', 'map-pin', 'bookmark', 'user'];
 let prevSelectedTab = 0;
 let currSelectedTab = 2;
 
-const screenOptions = {
-	unmountOnBlur: true,
-	headerShown: false,
+const tabCollection = [
+	{ key: 'home', screen: DemoScreen },
+	{ key: 'map', screen: DemoScreen },
+	{ key: 'map-pin', screen: NavigateScreen },
+	{ key: 'bookmark', screen: DemoScreen },
+	{ key: 'user', screen: DemoScreen },
+];
+
+const handleScreenSwitch = ({ route }) => {
+	currSelectedTab = tabCollection.findIndex(obj => obj.key == route.name);
+	return handleScreenTransition(
+		tabCollection[currSelectedTab].screen({ name: route.name })
+	);
 };
 
-const sceneContainerStyle = {
-	backgroundColor: '#2f3542',
-};
-
-const handleScreenSwitch = index => (currSelectedTab = index);
-
-const handleScreenTransition = () => {
+const handleScreenTransition = Screen => {
 	const transitionDirection =
 		currSelectedTab > prevSelectedTab ? FadeInRight : FadeInLeft;
 
@@ -30,7 +34,7 @@ const handleScreenTransition = () => {
 
 	return (
 		<Animated.View entering={transitionDirection} style={{ flex: 1 }}>
-			<DemoScreen name={tabKeys[currSelectedTab]} />
+			{Screen}
 		</Animated.View>
 	);
 };
@@ -43,19 +47,14 @@ export default TabWrapper = () => {
 				<BottomSheetModalProvider>
 					<Tab.Navigator
 						{...{ screenOptions, sceneContainerStyle }}
-						initialRouteName={tabKeys[currSelectedTab]}
-						tabBar={props => (
-							<TabBar
-								{...props}
-								handleScreen={handleScreenSwitch}
-							/>
-						)}
+						initialRouteName={tabCollection.keys[currSelectedTab]}
+						tabBar={props => <TabBar {...props} />}
 					>
-						{tabKeys.map(tabKey => (
+						{tabCollection.map(obj => (
 							<Tab.Screen
-								key={tabKey}
-								name={tabKey}
-								component={handleScreenTransition}
+								key={obj.key}
+								name={obj.key}
+								component={handleScreenSwitch}
 							/>
 						))}
 					</Tab.Navigator>
@@ -63,4 +62,13 @@ export default TabWrapper = () => {
 			</NavigationContainer>
 		</GestureHandlerRootView>
 	);
+};
+
+const screenOptions = {
+	unmountOnBlur: false,
+	headerShown: false,
+};
+
+const sceneContainerStyle = {
+	backgroundColor: '#2f3542',
 };
