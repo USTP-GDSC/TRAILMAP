@@ -7,7 +7,7 @@ export default TabSheet = ({ toggle }) => {
 	const bottomSheetRef = useRef(null);
 
 	// variables
-	const snapPoints = useMemo(() => ['14.5%', '50%'], []);
+	const snapPoints = useMemo(() => ['14%', '50%'], []);
 
 	// callbacks
 	const handleSheetChanges = useCallback(index => {
@@ -27,6 +27,7 @@ export default TabSheet = ({ toggle }) => {
 			index={0}
 			snapPoints={snapPoints}
 			onChange={handleSheetChanges}
+			handleStyle={styles.handle}
 			handleIndicatorStyle={styles.handleIndicator}
 		>
 			<View style={styles.contentContainer}></View>
@@ -39,7 +40,11 @@ const styles = StyleSheet.create({
 		flex: 1,
 		alignItems: 'center',
 	},
-
+	handle: {
+		borderTopLeftRadius: 12,
+		borderTopRightRadius: 12,
+		padding: 9,
+	},
 	handleIndicator: {
 		backgroundColor: '#dbdbdb',
 		padding: 2.8,

@@ -1,4 +1,3 @@
-import Animated, { FadeInLeft, FadeInRight } from 'react-native-reanimated';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -7,9 +6,12 @@ import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import TabBar from './TabBar';
 import DemoScreen from '../screens/DemoScreen';
 import NavigateScreen from '../screens/NavigateScreen';
+import { FadeInView } from './TabTransition';
 
 let prevSelectedTab = 0;
 let currSelectedTab = 2;
+
+const Tab = createBottomTabNavigator();
 
 const tabCollection = [
 	{ key: 'home', screen: DemoScreen },
@@ -27,27 +29,29 @@ const handleScreenSwitch = ({ route }) => {
 };
 
 const handleScreenTransition = Screen => {
-	const transitionDirection =
-		currSelectedTab > prevSelectedTab ? FadeInRight : FadeInLeft;
+	/* use direction for slide transitions */
+	// const transitionDirection =
+	//     currSelectedTab > prevSelectedTab ? FadeInRight : FadeInLeft;
 
 	prevSelectedTab = currSelectedTab;
-
-	return (
-		<Animated.View entering={transitionDirection} style={{ flex: 1 }}>
-			{Screen}
-		</Animated.View>
-	);
+	return <FadeInView>{Screen}</FadeInView>;
 };
 
-export default TabWrapper = () => {
-	const Tab = createBottomTabNavigator();
+export default function TabWrapper() {
+	const screenOptions = {
+		unmountOnBlur: false,
+		headerShown: false,
+	};
+	const sceneContainerStyle = {
+		backgroundColor: '#2f3542',
+	};
 	return (
 		<GestureHandlerRootView style={{ flex: 1 }}>
 			<NavigationContainer>
 				<BottomSheetModalProvider>
 					<Tab.Navigator
 						{...{ screenOptions, sceneContainerStyle }}
-						initialRouteName={tabCollection.keys[currSelectedTab]}
+						initialRouteName={tabCollection[currSelectedTab].key}
 						tabBar={props => <TabBar {...props} />}
 					>
 						{tabCollection.map(obj => (
@@ -62,13 +66,4 @@ export default TabWrapper = () => {
 			</NavigationContainer>
 		</GestureHandlerRootView>
 	);
-};
-
-const screenOptions = {
-	unmountOnBlur: false,
-	headerShown: false,
-};
-
-const sceneContainerStyle = {
-	backgroundColor: '#2f3542',
-};
+}
