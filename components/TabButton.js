@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 
-export const TabButton = ({ iconName, isCurrent }) => {
+export default TabButton = ({ iconName, isCurrent }) => {
 	return (
 		<View
 			style={{

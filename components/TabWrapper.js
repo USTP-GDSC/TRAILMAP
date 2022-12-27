@@ -1,40 +1,15 @@
-import React, { useRef } from 'react';
-import { StyleSheet, Text, View, Dimensions, Layout } from 'react-native';
 import Animated, { FadeInLeft, FadeInRight } from 'react-native-reanimated';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 
-import { TabBar } from './TabBar';
+import TabBar from './TabBar';
+import DemoScreen from '../screens/DemoScreen';
 
-const tabs = ['home', 'map', 'map-pin', 'bookmark', 'user'];
+const tabKeys = ['home', 'map', 'map-pin', 'bookmark', 'user'];
 let prevSelectedTab = 0;
-
-const DemoScreen = ({ route }) => {
-	const styles = StyleSheet.create({
-		screen: {
-			width: '100%',
-			height: '100%',
-			flex: 6,
-			justifyContent: 'center',
-			alignItems: 'center',
-			backgroundColor: 'whitesmoke',
-		},
-		text: { color: '#222' },
-	});
-
-	const currSelectedTab = tabs.indexOf(route.name);
-
-	const transitionDirection =
-		currSelectedTab > prevSelectedTab ? FadeInRight : FadeInLeft;
-
-	prevSelectedTab = currSelectedTab;
-
-	return (
-		<Animated.View style={styles.screen} entering={transitionDirection}>
-			<Text style={styles.text}>{route.name}</Text>
-		</Animated.View>
-	);
-};
+let currSelectedTab = 2;
 
 const screenOptions = {
 	unmountOnBlur: true,
@@ -42,25 +17,50 @@ const screenOptions = {
 };
 
 const sceneContainerStyle = {
-	backgroundColor: 'whitesmoke',
+	backgroundColor: '#2f3542',
 };
 
-export const TabWrapper = () => {
+const handleScreenSwitch = index => (currSelectedTab = index);
+
+const handleScreenTransition = () => {
+	const transitionDirection =
+		currSelectedTab > prevSelectedTab ? FadeInRight : FadeInLeft;
+
+	prevSelectedTab = currSelectedTab;
+
+	return (
+		<Animated.View entering={transitionDirection} style={{ flex: 1 }}>
+			<DemoScreen name={tabKeys[currSelectedTab]} />
+		</Animated.View>
+	);
+};
+
+export default TabWrapper = () => {
 	const Tab = createBottomTabNavigator();
 	return (
-		<NavigationContainer>
-			<View style={{ flex: 1, position: 'relative' }}>
-				<Tab.Navigator
-					{...{ screenOptions, sceneContainerStyle }}
-					tabBar={props => <TabBar {...props} />}
-				>
-					<Tab.Screen name={tabs[0]} component={DemoScreen} />
-					<Tab.Screen name={tabs[1]} component={DemoScreen} />
-					<Tab.Screen name={tabs[2]} component={DemoScreen} />
-					<Tab.Screen name={tabs[3]} component={DemoScreen} />
-					<Tab.Screen name={tabs[4]} component={DemoScreen} />
-				</Tab.Navigator>
-			</View>
-		</NavigationContainer>
+		<GestureHandlerRootView style={{ flex: 1 }}>
+			<NavigationContainer>
+				<BottomSheetModalProvider>
+					<Tab.Navigator
+						{...{ screenOptions, sceneContainerStyle }}
+						initialRouteName={tabKeys[currSelectedTab]}
+						tabBar={props => (
+							<TabBar
+								{...props}
+								handleScreen={handleScreenSwitch}
+							/>
+						)}
+					>
+						{tabKeys.map(tabKey => (
+							<Tab.Screen
+								key={tabKey}
+								name={tabKey}
+								component={handleScreenTransition}
+							/>
+						))}
+					</Tab.Navigator>
+				</BottomSheetModalProvider>
+			</NavigationContainer>
+		</GestureHandlerRootView>
 	);
 };

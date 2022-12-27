@@ -1,28 +1,30 @@
 {
-  "name": "ustp-trailmap",
-  "version": "1.0.0",
-  "main": "node_modules/expo/AppEntry.js",
-  "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web"
-  },
-  "dependencies": {
-    "@react-native-community/masked-view": "^0.1.11",
-    "@react-navigation/bottom-tabs": "^5.*",
-    "@react-navigation/native": "5.*",
-    "expo": "~47.0.9",
-    "expo-status-bar": "~1.4.2",
-    "react": "18.1.0",
-    "react-native": "0.70.5",
-    "react-native-gesture-handler": "^2.8.0",
-    "react-native-reanimated": "~2.12.0",
-    "react-native-safe-area-context": "^4.4.1",
-    "react-native-screens": "^3.18.2"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.12.9"
-  },
-  "private": true
+	"name": "ustp-trailmap",
+	"version": "1.0.0",
+	"main": "node_modules/expo/AppEntry.js",
+	"scripts": {
+		"start": "expo start",
+		"android": "expo start --android",
+		"ios": "expo start --ios",
+		"web": "expo start --web",
+		"clear": "expo start -c"
+	},
+	"dependencies": {
+		"@gorhom/bottom-sheet": "^4.4.5",
+		"@react-native-community/masked-view": "^0.1.11",
+		"@react-navigation/bottom-tabs": "^5.*",
+		"@react-navigation/native": "5.*",
+		"expo": "~47.0.9",
+		"expo-status-bar": "~1.4.2",
+		"react": "18.1.0",
+		"react-native": "0.70.5",
+		"react-native-gesture-handler": "^2.8.0",
+		"react-native-reanimated": "~2.12.0",
+		"react-native-safe-area-context": "^4.4.1",
+		"react-native-screens": "^3.18.2"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.12.9"
+	},
+	"private": true
 }
