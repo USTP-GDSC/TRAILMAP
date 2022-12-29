@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { Text, View, Animated } from 'react-native';
+import { Animated } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 
 export const FadeInView = props => {
@@ -8,13 +8,13 @@ export const FadeInView = props => {
 	useFocusEffect(() => {
 		Animated.timing(fadeAnim, {
 			toValue: 1,
-			duration: 500,
+			duration: 250,
 			useNativeDriver: true,
 		}).start();
 		return () => {
 			Animated.timing(fadeAnim, {
 				toValue: 0,
-				duration: 250,
+				duration: 125,
 				useNativeDriver: true,
 			}).start();
 		};
