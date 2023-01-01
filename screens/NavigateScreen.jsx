@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { View } from 'react-native';
-import { WebView } from 'react-native-webview';
-import { readAsStringAsync } from 'expo-file-system';
-import { useAssets } from 'expo-asset';
+
+import MapSketch from '../content/MapSketch';
 
 export default NavigateScreen = () => {
 	const [mount, shouldRemount] = useState(false);
@@ -44,48 +43,16 @@ export default NavigateScreen = () => {
 		},
 
 		onTouchCancel: evt => {
-			console.warn('You found a bug!');
+			console.warn("There's no bug around here!");
 			shouldRemount(!mount);
 			setControlLock('auto');
 		},
 	};
 
-	const IndexHTML = require('../assets/sketch/index.html');
-	const [index, indexLoadingError] = useAssets(IndexHTML);
-
-	const [html, setHtml] = useState('');
-
-	if (index) {
-		readAsStringAsync(index[0].localUri).then(data => {
-			setHtml(data);
-		});
-	}
-
-	const webViewProps = {
-		bounces: false,
-		scrollEnabled: false,
-		overScrollMode: 'never',
-		javaScriptEnabled: true,
-		setBuiltInZoomControls: false,
-		androidLayerType: 'hardware',
-
-		originWhitelist: ['*'],
-		allowFileAccess: true,
-		domStorageEnabled: true,
-		mixedContentMode: 'always',
-		allowUniversalAccessFromFileURLs: true,
-
-		key: shouldRemount,
-		source: { html },
-	};
-
 	return (
 		<View style={{ flex: 1 }} {...resolveControlProps}>
 			<View style={{ flex: 1 }} {...manageControlProps}>
-				<WebView
-					style={{ backgroundColor: '#2f3542' }}
-					{...webViewProps}
-				/>
+				<MapSketch />
 			</View>
 		</View>
 	);

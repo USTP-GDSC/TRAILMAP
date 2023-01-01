@@ -15,7 +15,7 @@
 		"@react-navigation/bottom-tabs": "^5.*",
 		"@react-navigation/native": "5.*",
 		"expo": "~47.0.9",
-		"expo-status-bar": "~1.4.2",
+		"expo-asset": "^8.7.0",
 		"expo-updates": "~0.15.6",
 		"react": "18.1.0",
 		"react-native": "0.70.5",
