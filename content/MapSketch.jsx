@@ -1,70 +1,53 @@
-import { useState } from 'react';
+import { useState, useLayoutEffect } from 'react';
 import { useAssets, Asset } from 'expo-asset';
 import { WebView } from 'react-native-webview';
 
 export default MapSketch = () => {
-	const [html, loadHTML] = useState('');
-	const [isMount, setMount] = useState(false);
+	const [sketch, loadSketch] = useState(``);
 
-	const componentDidMount = async () => {
-		if (!isMount) setMount(true);
-		else return;
+	const [assets] = useAssets([require(`../assets/sketch/model/world.gltf`)]);
 
-		const assets = {
-			world: 'wip',
-		};
+	const [scripts] = useAssets([
+		require(`../assets/sketch/library/Three.jsr`),
+		require(`../assets/sketch/library/Control.jsr`),
+		require(`../assets/sketch/library/Loader.jsr`),
+		require(`../assets/sketch/Sketch.jsr`),
+	]);
 
-		const scripts = [
-			require('../assets/sketch/library/Three.jsr'),
-			require('../assets/sketch/library/Control.jsr'),
-			require('../assets/sketch/library/Loader.jsr'),
-			require('../assets/sketch/Map.jsr'),
-		];
+	useLayoutEffect(() => {
+		if (sketch || !scripts || !assets) return;
 
-		let bundle = '';
-		for await (let value of scripts) {
-			value = Asset.fromModule(value);
-			value = await fetch(value.uri);
-			value = await value.text();
-
-			bundle += value;
-		}
-
-		loadHTML(
+		loadSketch(
 			`
 			<!DOCTYPE html>
 			<html>
-				<head>
-					<meta charset="utf-8" />
-					<meta
-						name="viewport"
-						content="width=device-width, 
-						user-scalable=no, 
-						minimum-scale=1.0, 
-						maximum-scale=1.0"
-					/>
-					<style>
-						body {
-							padding: 0;
-							margin: 0;
-							position: fixed;
-						}
-					</style>
-				</head>
-				
-				<script type="module">
-					const _ASSETS = ${JSON.stringify(assets)};
+			<head>
+				<meta charset="UTF-8" />
+				<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+				<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+			</head>
+			<body>
+				<script>
+					_ASSETS = {
+						WORLD: '${assets[0].localUri}',
+					}
 
 					window.addEventListener('touchstart', () => {
 						window.ReactNativeWebView.postMessage('hello');
 					});
-
-					${bundle}
+					
 				</script>
+				${scripts
+					.map(
+						info =>
+							`<script type="text/javascript" src="${info.localUri}"></script>`
+					)
+					.join('\n')}
+			</body>
 			</html>
 			`
 		);
-	};
+	});
 
 	const handleListener = event => {
 		console.log(event.nativeEvent.data);
@@ -86,8 +69,7 @@ export default MapSketch = () => {
 		mixedContentMode: 'always',
 		allowUniversalAccessFromFileURLs: true,
 
-		source: { html },
-		onLoad: componentDidMount,
+		source: { html: sketch },
 		onMessage: handleListener,
 	};
 

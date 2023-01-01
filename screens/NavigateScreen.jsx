@@ -43,7 +43,7 @@ export default NavigateScreen = () => {
 		},
 
 		onTouchCancel: evt => {
-			console.warn("There's no bug around here!");
+			console.warn('A secret has been opened..');
 			shouldRemount(!mount);
 			setControlLock('auto');
 		},
