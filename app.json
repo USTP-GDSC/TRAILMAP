@@ -4,10 +4,10 @@
 		"slug": "ustp-trailmap",
 		"version": "1.0.0",
 		"orientation": "portrait",
-		"icon": "./assets/images/icon.png",
+		"icon": "./assets/image/icon.png",
 		"userInterfaceStyle": "light",
 		"splash": {
-			"image": "./assets/images/splash.png",
+			"image": "./assets/image/splash.png",
 			"resizeMode": "contain",
 			"backgroundColor": "#ffffff"
 		},
@@ -20,12 +20,12 @@
 		},
 		"android": {
 			"adaptiveIcon": {
-				"foregroundImage": "./assets/images/adaptive-icon.png",
+				"foregroundImage": "./assets/image/adaptive-icon.png",
 				"backgroundColor": "#FFFFFF"
 			}
 		},
 		"web": {
-			"favicon": "./assets/images/favicon.png"
+			"favicon": "./assets/image/favicon.png"
 		}
 	}
 }

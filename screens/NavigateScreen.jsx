@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { View } from 'react-native';
 
-import MapSketch from '../content/MapSketch';
+import TrailMap from '../content/TrailMap';
 
 export default NavigateScreen = () => {
 	const [mount, shouldRemount] = useState(false);
@@ -52,7 +52,7 @@ export default NavigateScreen = () => {
 	return (
 		<View style={{ flex: 1 }} {...resolveControlProps}>
 			<View style={{ flex: 1 }} {...manageControlProps}>
-				<MapSketch />
+				<TrailMap />
 			</View>
 		</View>
 	);

@@ -1,0 +1,8 @@
+
+const clock = new THREE.Clock();
+const drawLoop = () => {
+	control.update(clock.getDelta());
+	renderer.render(scene, camera);
+	requestAnimationFrame(drawLoop);
+};
+drawLoop();
