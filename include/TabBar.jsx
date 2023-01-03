@@ -96,7 +96,7 @@ export default TabBar = ({ state, descriptors, navigation }) => {
 
 const style = StyleSheet.create({
 	tabContainer: {
-		backgroundColor: 'white',
+		backgroundColor: 'whitesmoke',
 		borderTopLeftRadius: 12,
 		borderTopRightRadius: 12,
 		position: 'absolute',

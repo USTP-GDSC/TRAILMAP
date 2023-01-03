@@ -43,11 +43,12 @@ const styles = StyleSheet.create({
 	handle: {
 		borderTopLeftRadius: 12,
 		borderTopRightRadius: 12,
-		padding: 9,
+		backgroundColor: 'whitesmoke',
+		padding: 9
 	},
 	handleIndicator: {
 		backgroundColor: '#dbdbdb',
 		padding: 2.8,
-		width: 40,
+		width: 40
 	},
 });

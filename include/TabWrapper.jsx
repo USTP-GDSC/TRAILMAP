@@ -43,7 +43,7 @@ export default function TabWrapper() {
 		headerShown: false,
 	};
 	const sceneContainerStyle = {
-		backgroundColor: '#2f3542',
+		backgroundColor: '#D5D9E6',
 	};
 	return (
 		<GestureHandlerRootView style={{ flex: 1 }}>

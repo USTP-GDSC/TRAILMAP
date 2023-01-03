@@ -54,7 +54,7 @@ export default TrailMap = () => {
 	};
 
 	const props = {
-		style: { backgroundColor: '#2f3542' },
+		style: { backgroundColor: '#D5D9E6' },
 
 		bounces: false,
 		scrollEnabled: false,

@@ -1,14 +1,14 @@
 class Scene extends THREE.Scene {
 	constructor() {
 		super();
-		this.fog = new THREE.FogExp2(0xeeeeee, 0.00015);
-		this.background = new THREE.Color(0xeeeeee);
+		this.fog = new THREE.FogExp2(0xC5C9DB, 0.0003);
+		this.background = new THREE.Color(0xC5C9DB);
 	}
 }
 
 class Camera extends THREE.PerspectiveCamera {
 	constructor() {
-		super(60, window.innerWidth / window.innerHeight, 0.1, 5000);
+		super(80, window.innerWidth / window.innerHeight, 0.1, 5000);
 		this.position.y = 3500;
 	}
 }
@@ -16,22 +16,18 @@ class Camera extends THREE.PerspectiveCamera {
 class Renderer extends THREE.WebGLRenderer {
 	constructor() {
 		super({ antialias: true });
-		
-		/* TODO: disable on lite mode */
 		this.shadowMap.enabled = true;
+		this.shadowMap.autoUpdate = false;
 		this.shadowMap.type = THREE.VSMShadowMap;
 		this.outputEncoding = THREE.sRGBEncoding;
-
 		this.setSize(window.innerWidth, window.innerHeight);
 		this.setPixelRatio(0.9);
 	}
 }
 
 class AmbientLight extends THREE.AmbientLight {
-	constructor(scene) {
-		super(0x222222, 2);
-		this.scene = scene;
-		this.scene.add(this);
+	constructor() {
+		super(0xc5c5c5, 0.4);
 	}
 }
 
@@ -49,15 +45,13 @@ class DirectionalLight extends THREE.DirectionalLight {
 }
 
 class HeadLight extends DirectionalLight {
-	constructor(scene) {
+	constructor() {
 		super();
-		this.scene = scene;
 		this.position.x = 700;
 		this.position.y = 1000;
 		this.position.z = 200;
-		this.intensity = 0.5;
-		this.castShadow = true;
-		this.scene.add(this);	
+		this.intensity = 0.7;
+		this.castShadow = true;	
 	}
 	debug() {
 		return new THREE.CameraHelper(this.shadow.camera);
@@ -65,36 +59,16 @@ class HeadLight extends DirectionalLight {
 }
 
 class FloorLight extends DirectionalLight {
-	constructor(scene) {
+	constructor() {
 		super();
-		this.scene = scene;
 		this.position.x = -700;
 		this.position.y = -1000;
 		this.position.z = -200;
 		this.intensity = 0.2;
-		this.castShadow = false;
-		this.scene.add(this);	
+		this.castShadow = false;	
 	}
 	debug() {
 		return new THREE.CameraHelper(this.shadow.camera);
-	}
-}
-
-class Plane extends THREE.Mesh {
-	constructor(scene) {
-		super();
-		this.scene = scene;
-		this.geometry = new THREE.PlaneGeometry(1, 1, 1);
-		this.material = new THREE.MeshPhongMaterial({ color: 0x2f3542 });
-		this.position.x = 0;
-		this.position.y = 0;
-		this.position.z = 0;
-		this.scale.x = 5000;
-		this.scale.y = 10000;
-		this.scale.z = 1;
-		this.receiveShadow = true;
-		this.rotation.x = -(Math.PI / 2);
-		this.scene.add(this);
 	}
 }
 
@@ -116,14 +90,16 @@ class World {
 
 		meshGroup = meshGroup.filter(mesh => {
 			// don't include in renderer
-			return mesh.name !== 'Sphere' && mesh.name !== 'Cube012' && mesh.name !== 'Human_Scale';
+			return mesh.name !== 'Road_2Boolean';
 		});
 
 		meshGroup.forEach(mesh => {
+			
 			mesh.material = new THREE.MeshPhongMaterial({
-				color: 0xcccccc,
-				opacity: 0.8,
-				transparent: true
+				color: 0x222222,
+				flatShading: true,
+				// opacity: 0.1,
+				// tranparent: true
 			});
 
 			mesh.castShadow = true;
@@ -132,13 +108,34 @@ class World {
 			mesh.userData.isEntity = true;
 		});
 
+		const floor = new THREE.Mesh();
+		floor.geometry = new THREE.PlaneGeometry(1, 1, 1);
+		floor.material = new THREE.MeshPhongMaterial(
+			{ 
+				color: 0xC5C9DB,
+				flatShading: true,
+				opacity: 0.8, 
+				transparent: true
+			});
+
+		floor.position.x = 0;
+		floor.position.y = 0;
+		floor.position.z = 0;
+		floor.scale.x = 10000;
+		floor.scale.y = 10000;
+		floor.scale.z = 10000;
+		floor.castShadow = false;
+		floor.receiveShadow = true;
+		floor.rotation.x = -(Math.PI / 2);
+		
 		world.scene.children = meshGroup;
-		world.scene.scale.x = 4;
-		world.scene.scale.y = 4;
-		world.scene.scale.z = 4;
+		world.scene.scale.x = 5;
+		world.scene.scale.y = 5;
+		world.scene.scale.z = 5;
 		world.scene.position.y = 2;
 
 		this.scene.add(world.scene);
+		this.scene.add(floor);
 		this.callback();
 	};
 
@@ -155,9 +152,9 @@ class Control extends Controller {
 		this.mouseButtons.right = Controller.ACTION.ROTATE;
 		this.mouseButtons.middle = Controller.ACTION.NONE;
 		this.verticalDragToForward = true;
-		this.maxPolarAngle = 0.8;
+		this.maxPolarAngle = (Math.PI / 2) - 0.4;
 		this.minDistance = 500;
-		this.maxDistance = 1600;
+		this.maxDistance = 1000;
 		this.draggingDampingFactor = 0.08;	
 		this.dollySpeed = 0.5;
 		this.setBoundary(
@@ -170,8 +167,9 @@ class Control extends Controller {
 	}
 
 	gotoStart() {
-		this.setPosition(0, 1300, 100, true);
-		this.polarAngle = 0.001;
+		setTimeout(() => {
+			this.dollyTo(950, true);
+		}, 500);
 	}
 }
 
@@ -181,41 +179,16 @@ let scene, camera, renderer, control;
 scene = new Scene();
 camera = new Camera();
 renderer = new Renderer();
-
 control = new Control(camera, renderer);
 
-new AmbientLight(scene);
-new HeadLight(scene);
-new FloorLight(scene);
+scene.add(new HeadLight());
+scene.add(new FloorLight());
+scene.add(new AmbientLight());
 
-/* TODO: disable on lite mode */
-new Plane(scene);
-
-new World(scene, () => {
+new World(scene, (onload) => {
 	control.gotoStart();
+	renderer.shadowMap.needsUpdate = true;
 });
-
-
-// const geometry = new THREE.BoxGeometry(1, 1, 1);
-// geometry.translate(0, 0.5, 0);
-// const material = new THREE.MeshPhongMaterial({
-// 	color: 0xffffff,
-// 	flatShading: true,
-// });
-
-// for (let i = 0; i < 500; i++) {
-// 	const mesh = new THREE.Mesh(geometry, material);
-// 	mesh.position.x = Math.random() * 1600 - 800;
-// 	mesh.position.y = 0;
-// 	mesh.position.z = Math.random() * 1600 - 800;
-// 	mesh.scale.x = 20;
-// 	mesh.scale.y = Math.random() * 80 + 10;
-// 	mesh.scale.z = 20;
-// 	mesh.castShadow = true;
-// 	mesh.receiveShadow = true;
-// 	scene.add(mesh);
-// }
-
 
 renderer.render(scene, camera);
 document
