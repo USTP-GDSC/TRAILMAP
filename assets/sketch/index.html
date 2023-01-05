@@ -13,19 +13,45 @@
 			padding: 0;
 			position: fixed;
 		}
+		.container {
+			position: fixed;
+			display: flex;
+			flex-direction: column;
+			background-color: grey;
+		}
+		.slider {
+			-webkit-appearance: none;
+			
+			width: 400px;
+			height: 20px;
+
+			margin-top: 10px;
+			background: #d3d3d3;
+			outline: none;
+			-webkit-transition: .2s;
+			transition: opacity .2s;
+		}
+		.slider::-webkit-slider-thumb {
+			-webkit-appearance: none;
+			appearance: none;
+			width: 15px;
+			height: 15px;
+			background: #04AA6D;
+			cursor: pointer;
+		}
 	</style>
 </head>
 <body>
-	<!-- library -->
-	<script type="text/javascript" src="./library/Three.jsr"></script>
-	<script type="text/javascript" src="./library/Loader.jsr"></script>
-	<script type="text/javascript" src="./library/Control.jsr"></script>
-	<!-- preload -->
-	<script type="text/javascript" src="./_preload.jsr"></script>
-	<!-- initialize -->
-	<script type="text/javascript" src="./_initialize.jsr"></script>
-	<!-- animate -->
-	<script type="text/javascript" src="./_animate.jsr"></script>
-	<!-- events -->
+		<!-- library -->
+		<script type="text/javascript" src="./library/Three.jsr"></script>
+		<script type="text/javascript" src="./library/Loader.jsr"></script>
+		<script type="text/javascript" src="./library/Control.jsr"></script>
+		<!-- preload -->
+		<script type="text/javascript" src="./_preload.jsr"></script>
+		<!-- initialize -->
+		<script type="text/javascript" src="./_initialize.jsr"></script>
+		<!-- animate -->
+		<script type="text/javascript" src="./_animate.jsr"></script>
+		<!-- events -->
 </body>
 </html>

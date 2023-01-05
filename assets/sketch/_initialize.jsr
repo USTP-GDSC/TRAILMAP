@@ -1,18 +1,16 @@
 class Scene extends THREE.Scene {
 	constructor() {
 		super();
-		this.fog = new THREE.FogExp2(0xC5C9DB, 0.0003);
-		this.background = new THREE.Color(0xC5C9DB);
+		this.fog = new THREE.FogExp2(0x3A3A3C, 0.00037);
+		this.background = new THREE.Color(0x3A3A3C);
 	}
 }
-
 class Camera extends THREE.PerspectiveCamera {
 	constructor() {
-		super(80, window.innerWidth / window.innerHeight, 0.1, 5000);
+		super(75, window.innerWidth / window.innerHeight, 0.1, 5000);
 		this.position.y = 3500;
 	}
 }
-
 class Renderer extends THREE.WebGLRenderer {
 	constructor() {
 		super({ antialias: true });
@@ -24,16 +22,14 @@ class Renderer extends THREE.WebGLRenderer {
 		this.setPixelRatio(0.9);
 	}
 }
-
 class AmbientLight extends THREE.AmbientLight {
 	constructor() {
-		super(0xc5c5c5, 0.4);
+		super(0x3867d6, 0.1);
 	}
 }
-
 class DirectionalLight extends THREE.DirectionalLight {
 	constructor() {
-		super(0xaabbff);
+		super(0xc5c5c5);
 		this.shadow.camera.top = 1000;
 		this.shadow.camera.bottom = -1000;
 		this.shadow.camera.left = -1000;
@@ -42,22 +38,21 @@ class DirectionalLight extends THREE.DirectionalLight {
 		this.shadow.camera.far = 2000;
 		this.shadow.mapSize.set(512, 512);
 	}
+	debug() {
+		// return new THREE.DirectionalLightHelper(this, 5, 0xff0000);
+		// return new THREE.CameraHelper(this.shadow.camera);
+	}
 }
-
 class HeadLight extends DirectionalLight {
 	constructor() {
 		super();
 		this.position.x = 700;
 		this.position.y = 1000;
 		this.position.z = 200;
-		this.intensity = 0.7;
+		this.intensity = 1;
 		this.castShadow = true;	
 	}
-	debug() {
-		return new THREE.CameraHelper(this.shadow.camera);
-	}
 }
-
 class FloorLight extends DirectionalLight {
 	constructor() {
 		super();
@@ -67,11 +62,20 @@ class FloorLight extends DirectionalLight {
 		this.intensity = 0.2;
 		this.castShadow = false;	
 	}
+}
+class OffLight extends DirectionalLight {
+	constructor() {
+		super(0xc5c5c5);
+		this.position.x = 0;
+		this.position.y = 300;
+		this.position.z = 900;
+		this.intensity = 0.08;
+		this.castShadow = false;	
+	}
 	debug() {
-		return new THREE.CameraHelper(this.shadow.camera);
+		return new THREE.DirectionalLightHelper(this, 5, 0xff0000);
 	}
 }
-
 class World {
 	constructor(scene, callback) {
 		this.scene = scene;		
@@ -86,38 +90,30 @@ class World {
 	}
 
 	onLoad = world => {
+		world.scene.traverse( 
+			function ( mesh ) {
+				if (mesh.isMesh ) {
+					mesh.castShadow = true;
+					mesh.receiveShadow = true;
+					mesh.geometry.computeVertexNormals();
+
+					if (mesh.name == 'Pathway' || mesh.name == 'Dinosaur_Foot') {
+				
+					}
+				}
+			}
+		);
+		
 		let meshGroup = world.scene.children;
 
 		meshGroup = meshGroup.filter(mesh => {
 			// don't include in renderer
-			return mesh.name !== 'Road_2Boolean';
-		});
-
-		meshGroup.forEach(mesh => {
-			
-			mesh.material = new THREE.MeshPhongMaterial({
-				color: 0x222222,
-				flatShading: true,
-				// opacity: 0.1,
-				// tranparent: true
-			});
-
-			mesh.castShadow = true;
-			mesh.receiveShadow = true;
-			mesh.userData.id = mesh.name;
-			mesh.userData.isEntity = true;
+			return mesh.name !== 'Road';
 		});
 
 		const floor = new THREE.Mesh();
 		floor.geometry = new THREE.PlaneGeometry(1, 1, 1);
-		floor.material = new THREE.MeshPhongMaterial(
-			{ 
-				color: 0xC5C9DB,
-				flatShading: true,
-				opacity: 0.8, 
-				transparent: true
-			});
-
+		floor.material = new THREE.MeshLambertMaterial({color: 0x101010});
 		floor.position.x = 0;
 		floor.position.y = 0;
 		floor.position.z = 0;
@@ -141,7 +137,6 @@ class World {
 
 	onError = error => alert(error);
 }
-
 class Control extends Controller {
 	constructor(camera, renderer) {
 		super(camera, renderer.domElement);
@@ -153,7 +148,7 @@ class Control extends Controller {
 		this.mouseButtons.middle = Controller.ACTION.NONE;
 		this.verticalDragToForward = true;
 		this.maxPolarAngle = (Math.PI / 2) - 0.4;
-		this.minDistance = 500;
+		this.minDistance = 400;
 		this.maxDistance = 1000;
 		this.draggingDampingFactor = 0.08;	
 		this.dollySpeed = 0.5;
@@ -168,27 +163,84 @@ class Control extends Controller {
 
 	gotoStart() {
 		setTimeout(() => {
-			this.dollyTo(950, true);
+			this.setLookAt(-164.43700626989727, 417.89041889924545, 365.69995072972574, -35.33671297362808, 5.948585793162081e-15, 123.4176524431389, true);
 		}, 500);
 	}
 }
 
-// boilerplate
+
+
+/* boilerplate */
 let scene, camera, renderer, control;
 
 scene = new Scene();
 camera = new Camera();
 renderer = new Renderer();
+renderer.setClearColor(0, 1)
+
+
 control = new Control(camera, renderer);
 
+scene.add(new OffLight());
 scene.add(new HeadLight());
 scene.add(new FloorLight());
 scene.add(new AmbientLight());
 
-new World(scene, (onload) => {
+
+/* raycaster */
+let pointer, raycaster;
+pointer = new THREE.Vector2();
+raycaster = new THREE.Raycaster();
+
+
+
+let currObj, prevObj, prevObjMaterial;
+
+const onMouseMove = (event) => {
+	pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
+	pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+	raycaster.setFromCamera(pointer, camera);
+	
+	const intersects = raycaster.intersectObjects(scene.children);
+
+	
+	for (const mesh of intersects) {
+		currObj = mesh.object;		
+		if (currObj.name == '' || currObj.name == 'Pathway001') {
+			break;
+		}
+		if (prevObj === undefined) {
+			prevObj = currObj;
+		}
+		// if (prevObj.name != currObj.name) {
+		// 	prevObj.material.color = prevObjMaterial;
+		// }
+		// prevObjMaterial = currObj.material.color; 
+
+		const [x,y,z] = control.getPosition();
+		const [a,b,c] = control.getTarget();
+		console.log(currObj.name, [x,y,z,a,b,c]);
+
+
+		// currObj.material.color.set(0x2236962);
+		prevObj = currObj;
+
+		control.fitToBox(currObj, true);
+	}	
+	
+}
+
+window.addEventListener('click', onMouseMove);
+
+
+new World(scene, () => {
 	control.gotoStart();
 	renderer.shadowMap.needsUpdate = true;
 });
+
+
+
 
 renderer.render(scene, camera);
 document
