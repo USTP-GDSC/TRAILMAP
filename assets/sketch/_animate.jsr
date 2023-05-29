@@ -4,5 +4,12 @@ const drawLoop = () => {
 	control.update(clock.getDelta());
 	renderer.render(scene, camera);
 	requestAnimationFrame(drawLoop);
+
+	const direction = new THREE.Vector3();
+	camera.getWorldDirection(direction);
+  
+	// console.log("Control Position:", control.getPosition());
+	// console.log("Control Target:", control.getTarget());
+
 };
 drawLoop();
