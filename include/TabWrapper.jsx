@@ -9,16 +9,18 @@ import NavigateScreen from '../screens/NavigateScreen';
 import { FadeInView } from './TabTransition';
 
 let prevSelectedTab = 0;
-let currSelectedTab = 2;
+let currSelectedTab = 0;
 
 const Tab = createBottomTabNavigator();
 
 const tabCollection = [
-	{ key: 'home', screen: DemoScreen },
-	{ key: 'map', screen: DemoScreen },
-	{ key: 'map-pin', screen: NavigateScreen },
-	{ key: 'bookmark', screen: DemoScreen },
-	{ key: 'user', screen: DemoScreen },
+	{ key: 'map-pin', screen: NavigateScreen},
+	{ key: 'settings', screen: DemoScreen },
+	// { key: 'home', screen: DemoScreen },
+	// { key: 'map', screen: DemoScreen },
+	// { key: 'map-pin', screen: NavigateScreen},
+	// { key: 'bookmark', screen: DemoScreen },
+	// { key: 'user', screen: DemoScreen },
 ];
 
 const handleScreenSwitch = ({ route }) => {

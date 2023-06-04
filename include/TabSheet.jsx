@@ -7,7 +7,7 @@ export default TabSheet = ({ toggle }) => {
 	const bottomSheetRef = useRef(null);
 
 	// variables
-	const snapPoints = useMemo(() => ['14%', '50%'], []);
+	const snapPoints = useMemo(() => [220, '50%'], []);
 
 	// callbacks
 	const handleSheetChanges = useCallback(index => {
@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
 	contentContainer: {
 		flex: 1,
 		alignItems: 'center',
+		backgroundColor: 'whitesmoke',
 	},
 	handle: {
 		borderTopLeftRadius: 12,

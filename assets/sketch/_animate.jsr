@@ -1,0 +1,87 @@
+var isDragging = false;
+
+const handleStart = (e) => isDragging = false;
+const handleMove = (e) => isDragging = true;
+const handleClick = (e) => {
+  if (!isDragging) {
+    // Your code to handle the click event
+	
+	// Set up raycater
+	const pointer = new THREE.Vector2();
+	const raycaster = new THREE.Raycaster();
+
+    // calculate pointer position in normalized device coordinates
+	// (-1 to +1) for both components
+	pointer.x = (e.clientX / window.innerWidth) * 2 - 1;	
+	pointer.y = -(e.clientY / window.innerHeight) * 2 + 1;
+
+	raycaster.setFromCamera(pointer, camera);
+	const intersects = raycaster.intersectObjects(scene.children);
+
+	const pos = control.getPosition();
+	const tar = control.getTarget();
+
+	/* group or mesh building */
+
+	console.log(intersects);
+
+	// skip meshes without a name
+	let target_index = 0;
+	while (
+		intersects[target_index].object.name == '' ||
+		intersects[target_index].object.name.substr(0, 6) == 'Marker') {
+		target_index++;
+	}
+
+	const target = 
+		(intersects[target_index].object.parent.name != 'Scene')
+			? intersects[target_index].object.parent.name
+			: intersects[target_index].object.name;
+
+	if (!(
+		target == ''      ||
+		target == 'Road'  ||
+		target == 'Trees' ||  
+		target == 'Pathway'
+	)) {
+		// select groups (if parent is the scene)
+		if (target != 'Scene') {
+			console.log(`${target}: (${pos.x}, ${pos.y}, ${pos.z}, ${tar.x}, ${tar.y}, ${tar.z})`);
+			control.setLookAt(..._Coordinates[target], true);
+		}
+		// select mesh
+		else {
+			console.log(`${intersects[0].object.name}: (${pos.x}, ${pos.y}, ${pos.z}, ${tar.x}, ${tar.y}, ${tar.z})`);
+			control.setLookAt(..._Coordinates[target], true);
+		}
+	}
+  }
+}
+
+const canvasEventListeners = (element) => {
+  element.addEventListener("touchstart", handleStart, { passive: true });
+  element.addEventListener("touchmove", handleMove, { passive: true });
+  element.addEventListener("touchend", handleClick, { passive: true });
+  element.addEventListener("mousedown", handleStart);
+  element.addEventListener("mousemove", handleMove);
+  element.addEventListener("mouseup", handleClick);
+}
+
+// Usage: Add event listeners to your canvas element
+const canvas = document.getElementsByTagName("canvas")[0];
+canvasEventListeners(canvas);
+
+
+// Draw loop
+const clock = new THREE.Clock();
+const drawLoop = () => {
+	control.update(clock.getDelta());
+	
+	// const pos = control.getPosition();
+	// const tar = control.getTarget();
+	// console.log(`(${pos.x}, ${pos.y}, ${pos.z}, ${tar.x}, ${tar.y}, ${tar.z})`);
+	
+	renderer.render(scene, camera);
+	requestAnimationFrame(drawLoop);
+};
+drawLoop();

@@ -29,7 +29,7 @@ export default TabBar = ({ state, descriptors, navigation }) => {
 
 	return (
 		<>
-			<TabSheet toggle={state.index === 2 ? true : false} />
+			<TabSheet toggle={state.index === 0 ? true : false} />
 			<View style={[style.tabContainer, { width: totalWidth }]}>
 				<View style={{ flexDirection: 'row' }}>
 					<Animated.View
