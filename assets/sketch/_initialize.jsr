@@ -21,10 +21,10 @@ class Scene extends THREE.Scene {
 		this.setSize(window.innerWidth, window.innerHeight);	  
 
 		// BETA: 
-		this.shadowMap.enabled = false;
+		this.shadowMap.enabled = true;
 		this.shadowMap.type = THREE.VSMShadowMap;
 		// this.shadowMap.type = THREE.PCFSoftShadowMap;
-		this.setPixelRatio(0.7); // adjust render quality
+		// this.setPixelRatio(1); // adjust render quality
 	}
   }
 
@@ -67,31 +67,26 @@ class Cloud extends THREE.Object3D {
 		opacity: 0.13,
 	  });
   
-	  const cloudMeshes = [];
 	  const numDodecahedrons = Math.floor(Math.random() * 2) + 4; // Random number of dodecahedrons (between 4 and 5)
+	  const cloudSize = Math.random() * 32 + 26; // Random size between 50 and 80
+  
+	  const cloudGeometry = new THREE.DodecahedronGeometry(cloudSize, 0);
+	  const cloudMesh = new THREE.InstancedMesh(cloudGeometry, cloudMaterial, numDodecahedrons);
   
 	  for (let i = 0; i < numDodecahedrons; i++) {
 		const x = Math.random() * 1500 - 750; // Random x position between -500 and 500
 		const y = Math.random() * 150 + 130; // Random y position between 100 and 300
 		const z = Math.random() * 1500 - 750; // Random z position between -500 and 500
   
-		const cloudSize = Math.random() * 32 + 26; // Random size between 50 and 80
-		const cloudGeometry = new THREE.DodecahedronGeometry(cloudSize, 0);
-		const cloudMesh = new THREE.Mesh(cloudGeometry, cloudMaterial);
-
-		cloudMesh.position.set(x, y, z);
-  
 		const scale = cloudSize / 50; // Adjust the scale based on the size
-		cloudMesh.scale.set(scale, scale, scale);
-  
-		cloudMeshes.push(cloudMesh);
+		const matrix = new THREE.Matrix4().compose(new THREE.Vector3(x, y, z), new THREE.Quaternion(), new THREE.Vector3(scale, scale, scale));
+		cloudMesh.setMatrixAt(i, matrix);
 	  }
   
-	  const cloudGroup = new THREE.Group();
-	  cloudGroup.add(...cloudMeshes);
-	  this.add(cloudGroup);
+	  this.add(cloudMesh);
 	}
   }
+  
   
   
 
@@ -243,10 +238,11 @@ class World {
 
 		let meshGroup = world.scene.children;
 		meshGroup = meshGroup.filter(mesh => {
-			// don't include in renderer
-			return mesh.name.substr(0, 6) !== 'Marker';
+		  // Exclude objects from casting shadows
+		  return !mesh.name.startsWith('Marker');
 		});
 		world.scene.children = meshGroup;
+		
 
 
 		/** Show Polynomial Count of Model
@@ -269,25 +265,6 @@ class World {
 
 			console.log(`Polycount: ${totalPolygonCount}`);
 		*/
-
-		let totalPolygonCount = 0;
-
-		world.scene.traverse((child) => {
-		if (child instanceof THREE.Mesh) {
-			// Access the position attribute of the mesh's geometry
-			const positionAttribute = child.geometry.getAttribute('position');
-	
-			// Get the number of vertices in the mesh's geometry
-			const vertexCount = positionAttribute.count;
-	
-			// Calculate the number of polygons (triangles) based on the number of vertices
-			const polygonCount = vertexCount / 3;
-	
-			totalPolygonCount += polygonCount;
-		}
-		});
-
-		console.log(`Polycount: ${totalPolygonCount}`);
 	  
 
 		// Prevent material reference duplication bug
@@ -296,40 +273,85 @@ class World {
 		const noShadowCast = ['Road', 'Pathway'];
 		const noTransparency = ['Road', 'Pathway', 'Trees'];
 
-		for (let child of world.scene.children) {
-			if (child instanceof THREE.Group) {
-				child.traverse((subchild) => {
-					if (subchild instanceof THREE.Mesh) {
-						subchild.receiveShadow = true;
-						if (!noShadowCast.includes(child.name)) {
-							subchild.castShadow = true;
+		let enableShaders = false;
+
+		if (enableShaders) {
+			for (let child of world.scene.children) {
+				if (child instanceof THREE.Group) {
+					child.traverse((subchild) => {
+						if (subchild instanceof THREE.Mesh) {
+							subchild.receiveShadow = true;
+							if (!noShadowCast.includes(child.name)) {
+								subchild.castShadow = true;
+							}
+							// subchild.material = cloneMaterial(subchild);	
+							if (!noTransparency.includes(child.name)) {
+								subchild.material.transparent = false;
+								// subchild.material.opacity = 1;					
+							}
 						}
-						// subchild.material = cloneMaterial(subchild);	
-						if (!noTransparency.includes(child.name)) {
-							subchild.material.transparent = true;
-							subchild.material.opacity = 0.5;					
-						}
+					});
+				} 
+				
+				else if (child instanceof THREE.Mesh) {
+					// Prevent material reference duplication bug
+					child.receiveShadow = true;
+					if (!noShadowCast.includes(child.name)) {
+						child.castShadow = true;
 					}
-				});
-			} 
-			
-			else if (child instanceof THREE.Mesh) {
-				// Prevent material reference duplication bug
-				child.receiveShadow = true;
-				if (!noShadowCast.includes(child.name)) {
-					child.castShadow = true;
-				}
-				// child.material = cloneMaterial(child);
-				if (!noTransparency.includes(child.name)) {
-					child.material.transparent = true;
-					child.material.opacity = 0.5;
+					// child.material = cloneMaterial(child);
+					if (!noTransparency.includes(child.name)) {
+						child.material.transparent = false;
+						child.material.opacity = 1;
+					}
 				}
 			}
+			this.addClouds();
+		}
+		else {
+			for (let child of world.scene.children) {
+				if (child instanceof THREE.Group) {
+				  child.traverse((subchild) => {
+					if (subchild instanceof THREE.Mesh) {
+					  subchild.receiveShadow = true;
+					  if (!noShadowCast.includes(child.name)) {
+						subchild.castShadow = true;
+					  }
+					  // Apply flat material to each mesh while maintaining color and shadows
+					  const flatMaterial = new THREE.MeshBasicMaterial({
+						color: subchild.material.color,
+						shadowMap: true,
+						shadowSide: THREE.DoubleSide,
+					  });
+					  subchild.material = flatMaterial;
+					  if (!noTransparency.includes(child.name)) {
+						subchild.material.transparent = true;
+						subchild.material.opacity = 0.9;					
+					  }
+					}
+				  });
+				} else if (child instanceof THREE.Mesh) {
+				  child.receiveShadow = true;
+				  if (!noShadowCast.includes(child.name)) {
+					child.castShadow = true;
+				  }
+				  // Apply flat material to the mesh while maintaining color and shadows
+				  const flatMaterial = new THREE.MeshBasicMaterial({
+					color: child.material.color,
+					shadowMap: true,
+					shadowSide: THREE.DoubleSide,
+				  });
+				  child.material = flatMaterial;
+				  if (!noTransparency.includes(child.name)) {
+					child.material.transparent = true;
+					child.material.opacity = 0.9;
+				  }
+				}
+			  }
 		}
 
 		 // Add lights, clouds, and skydome
 		this.addLights();
-		this.addClouds();
 		this.addSkydome();
 
 		// Call a function after world is loaded
@@ -339,6 +361,7 @@ class World {
 
 	onError = (error) => alert(error);	
 
+	
 	addLights = () => {
 		const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 		this.scene.add(ambientLight);
@@ -422,8 +445,54 @@ class Control extends _Control(THREE) {
   // Load the world
   const world = new World(scene, () => {
 	control.gotoStart();
-	console.log(world.border);
 	control.setBoundary(world.border);
+
+	let totalPolygonCount = 0;
+
+
+	// Disable reflections for all materials
+	const disableReflections = (material) => {
+		material.envMap = null;
+		material.metalness = 0;
+		material.roughness = 1;
+	};
+
+	scene.traverse((child) => {	  
+			
+		console.log(child.type, child.name);
+		if (child instanceof THREE.Mesh) {
+			
+			if (child.material instanceof THREE.Material) {
+				disableReflections(child.material);
+			} 
+			else if (Array.isArray(child.material)) {
+				child.material.forEach(disableReflections);
+			}
+			
+			child.frustumCulled = false;
+			child.matrixAutoUpdate = false;
+			child.material.envMap = null;
+    		child.material.needsUpdate = true; // Update the material
+			child.updateMatrix();
+
+
+
+			
+			// Access the position attribute of the mesh's geometry
+			const positionAttribute = child.geometry.getAttribute('position');
+	
+			// Get the number of vertices in the mesh's geometry
+			const vertexCount = positionAttribute.count;
+	
+			// Calculate the number of polygons (triangles) based on the number of vertices
+			const polygonCount = vertexCount / 3;
+	
+			totalPolygonCount += polygonCount;
+		}
+	});
+
+	console.log(`Polycount: ${totalPolygonCount}`);
+
 	renderer.shadowMap.needsUpdate = true;
   });
 
