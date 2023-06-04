@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
 import TrailMap from '../content/TrailMap';
+import SearchBar from '../include/SearchBar';
 
 export default NavigateScreen = () => {
 	const [mount, shouldRemount] = useState(false);
@@ -50,10 +51,24 @@ export default NavigateScreen = () => {
 	};
 
 	return (
-		<View style={{ flex: 1 }} {...resolveControlProps}>
-			<View style={{ flex: 1 }} {...manageControlProps}>
-				<TrailMap />
-			</View>
+		<View style={{ flex: 1, position: 'relative' }} {...manageControlProps}>
+			<TrailMap />
+		
+			<View style={styles.searchBarContainer}>
+			<SearchBar />
 		</View>
+	  </View>
 	);
 };
+
+const styles = StyleSheet.create({
+	searchBarContainer: {
+	  position: 'absolute',
+	  top: 45,
+	  left: 10,
+	  right: 10,
+	  zIndex: 1, // Ensure the search bar appears on top of other elements
+
+	},
+  });
+  
