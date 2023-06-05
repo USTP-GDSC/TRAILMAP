@@ -1,8 +1,9 @@
 import { useState, useLayoutEffect } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 import { useAssets, Asset } from 'expo-asset';
 import { WebView } from 'react-native-webview';
 
-export default TrailMap = () => {
+export default TrailMap = ({onBuildingClicked}) => {
 	const [html, loadHTML] = useState(``);
 
 	const [scripts] = useAssets([
@@ -50,7 +51,11 @@ export default TrailMap = () => {
 	});
 
 	const handleListener = event => {
-		console.log(event.nativeEvent.data);
+		if (event.nativeEvent.data.startsWith("onBuildingClick")) {
+			// console.warn(event.nativeEvent.data.substr(17));
+			onBuildingClicked(<Text>{event.nativeEvent.data.substr(17)}</Text>);
+			// console.warn(handleMapUpdate);
+		}
 	};
 
 	const props = {
@@ -71,7 +76,16 @@ export default TrailMap = () => {
 
 		source: { html },
 		onMessage: handleListener,
+
+		
 	};
 
-	return <WebView {...props} />;
+	return <WebView {...props} 
+	  injectedJavaScript={`
+		// JavaScript code that will be executed in the WebView
+		// You can use window.ReactNativeWebView.postMessage() to send messages back to React Native
+	  `}
+	/>;
+	
+	
 };

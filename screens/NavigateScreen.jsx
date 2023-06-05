@@ -4,7 +4,7 @@ import { View, StyleSheet } from 'react-native';
 import TrailMap from '../content/TrailMap';
 import SearchBar from '../include/SearchBar';
 
-export default NavigateScreen = () => {
+export default NavigateScreen = ({onBuildingClicked}) => {
 	const [mount, shouldRemount] = useState(false);
 	const [controlLock, setControlLock] = useState('auto');
 
@@ -52,8 +52,7 @@ export default NavigateScreen = () => {
 
 	return (
 		<View style={{ flex: 1, position: 'relative' }} {...manageControlProps}>
-			<TrailMap />
-		
+			<TrailMap onBuildingClicked={onBuildingClicked} />
 			<View style={styles.searchBarContainer}>
 			<SearchBar />
 		</View>

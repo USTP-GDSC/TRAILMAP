@@ -45,15 +45,28 @@ const handleClick = (e) => {
 		target == 'Pathway'
 	)) {
 		// select groups (if parent is the scene)
+		let object_id;
 		if (target != 'Scene') {
-			console.log(`${target}: (${pos.x}, ${pos.y}, ${pos.z}, ${tar.x}, ${tar.y}, ${tar.z})`);
-			control.setLookAt(..._Coordinates[target], true);
+			object_id = target;
+			console.log(`${object_id}: (${pos.x}, ${pos.y}, ${pos.z}, ${tar.x}, ${tar.y}, ${tar.z})`);
+			control.setLookAt(..._Coordinates[object_id], true);
 		}
 		// select mesh
 		else {
-			console.log(`${intersects[0].object.name}: (${pos.x}, ${pos.y}, ${pos.z}, ${tar.x}, ${tar.y}, ${tar.z})`);
-			control.setLookAt(..._Coordinates[target], true);
+			object_id = intersects[0].object.name;
+			console.log(`${object_id}: (${pos.x}, ${pos.y}, ${pos.z}, ${tar.x}, ${tar.y}, ${tar.z})`);
+			control.setLookAt(..._Coordinates[object_id], true);
 		}
+
+		// communicate to react native that object_id has been clicked
+		try {
+			window.ReactNativeWebView.postMessage(`onBuildingClick: ${object_id}`);
+		}
+		catch (e) {
+			console.warn(e);
+		}
+
+
 	}
   }
 }

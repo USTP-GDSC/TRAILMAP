@@ -40,7 +40,7 @@ class Scene extends THREE.Scene {
 	this.shadow.camera.far = 5000;
 	// BETA:
 	this.shadow.mapSize.set(1024, 1024);
-	this.shadow.bias = -0.0005;
+	this.shadow.bias = -0.001;
 	
 	this.position.set(100, 500, 600);
 	this.target.position.set(0, 0, 0); // Position the target at the center of the world
@@ -267,6 +267,10 @@ class World {
 		*/
 	  
 
+		// Add lights, clouds, and skydome
+		this.addLights();
+		this.addSkydome();
+
 		// Prevent material reference duplication bug
 		const cloneMaterial = (mesh) => mesh.material.clone();
 
@@ -286,8 +290,8 @@ class World {
 							}
 							// subchild.material = cloneMaterial(subchild);	
 							if (!noTransparency.includes(child.name)) {
-								subchild.material.transparent = false;
-								// subchild.material.opacity = 1;					
+								subchild.material.transparent = true;
+								subchild.material.opacity = 0.7;					
 							}
 						}
 					});
@@ -301,14 +305,14 @@ class World {
 					}
 					// child.material = cloneMaterial(child);
 					if (!noTransparency.includes(child.name)) {
-						child.material.transparent = false;
-						child.material.opacity = 1;
+						child.material.transparent = true;
+						child.material.opacity = 0.7;
 					}
 				}
 			}
 			this.addClouds();
 		}
-		else {
+		else {			
 			for (let child of world.scene.children) {
 				if (child instanceof THREE.Group) {
 				  child.traverse((subchild) => {
@@ -350,10 +354,6 @@ class World {
 			  }
 		}
 
-		 // Add lights, clouds, and skydome
-		this.addLights();
-		this.addSkydome();
-
 		// Call a function after world is loaded
 		this.callback();
 	};
@@ -363,15 +363,15 @@ class World {
 
 	
 	addLights = () => {
-		const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-		this.scene.add(ambientLight);
+		this.ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+		this.scene.add(this.ambientLight);
 
-		const directionalLight = new DirectionalLight(0xffffff, 1);
-		this.scene.add(directionalLight);
+		this.sunlight = new DirectionalLight(0xffffff, 1);
+		this.scene.add(this.sunlight);
 
-		const floorLight = new THREE.DirectionalLight(0xffffff, 0.5);
-		floorLight.position.set(-100, -200, -100);
-		this.scene.add(floorLight);
+		this.floorLight = new THREE.DirectionalLight(0xffffff, 0.5);
+		this.floorLight.position.set(-100, -200, -100);
+		this.scene.add(this.floorLight);
 	};
 
 	addClouds = () => {

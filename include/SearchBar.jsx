@@ -34,15 +34,15 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
+    backgroundColor: '#ffffff',
+    borderRadius: 50,
+    paddingLeft: 25,
+    paddingRight: 15,
+    paddingTop: 10,
+    paddingBottom: 10,
   },
   input: {
     flex: 1,
-    backgroundColor: '#ffffff',
-    borderRadius: 50,
-    paddingLeft: 30,
-    paddingRight: 10,
-    paddingTop: 12,
-    paddingBottom: 12,
   },
   searchButton: {
     paddingHorizontal: 10,

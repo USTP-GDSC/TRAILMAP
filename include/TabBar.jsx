@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
 	View,
+	Text,
 	TouchableOpacity,
 	Dimensions,
 	Animated,
@@ -10,7 +11,7 @@ import {
 import TabSheet from './TabSheet';
 import TabButton from './TabButton';
 
-export default TabBar = ({ state, descriptors, navigation }) => {
+export default TabBar = ({ state, descriptors, navigation, sheetbody}) => {
 	const [translateValue] = useState(new Animated.Value(0));
 	const totalWidth = Dimensions.get('window').width;
 	const tabWidth = totalWidth / state.routes.length;
@@ -29,7 +30,7 @@ export default TabBar = ({ state, descriptors, navigation }) => {
 
 	return (
 		<>
-			<TabSheet toggle={state.index === 0 ? true : false} />
+			<TabSheet>{sheetbody}</TabSheet>
 			<View style={[style.tabContainer, { width: totalWidth }]}>
 				<View style={{ flexDirection: 'row' }}>
 					<Animated.View
