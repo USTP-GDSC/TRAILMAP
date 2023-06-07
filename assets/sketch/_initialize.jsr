@@ -274,13 +274,14 @@ class World {
 		// Prevent material reference duplication bug
 		const cloneMaterial = (mesh) => mesh.material.clone();
 
-		const noShadowCast = ['Road', 'Pathway'];
-		const noTransparency = ['Road', 'Pathway', 'Trees'];
+		const noShadowCast = ['Road', 'Pathway001'];
+		const noTransparency = ['Road', 'Pathway001', 'Trees'];
 
 		let enableShaders = false;
 
 		if (enableShaders) {
 			for (let child of world.scene.children) {
+				// console.log(child.type, child.name);
 				if (child instanceof THREE.Group) {
 					child.traverse((subchild) => {
 						if (subchild instanceof THREE.Mesh) {
@@ -314,6 +315,7 @@ class World {
 		}
 		else {			
 			for (let child of world.scene.children) {
+				// console.log(child.type, child.name);
 				if (child instanceof THREE.Group) {
 				  child.traverse((subchild) => {
 					if (subchild instanceof THREE.Mesh) {
@@ -458,8 +460,6 @@ class Control extends _Control(THREE) {
 	};
 
 	scene.traverse((child) => {	  
-			
-		console.log(child.type, child.name);
 		if (child instanceof THREE.Mesh) {
 			
 			if (child.material instanceof THREE.Material) {

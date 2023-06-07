@@ -1,0 +1,325 @@
+{
+    "BLDG_5_-_Old_Engineering_Building": {
+        "name": "Old Engineering Building [BLDG 5]",
+        "rooms": {
+            "f1": [
+                "Printing Shop",
+                "Room 5 - 101",
+                "Room 5 - 102",
+                "Room 5 - 103",
+                "Room 5 - 104",
+                "Room 5 - 105",
+                "IIIE",
+                "MUST Employee Multipurpose Cooperative",
+                "Office of the Alumni Federation",
+                "Room 5 - 108",
+                "JIECEP",
+                "Civil and Sanitary Work Section"
+            ]
+        }
+    },
+    "BLDG_9-ICT_Building": {
+        "name": "College of Information Communication Technology [BLDG BUILDING 9, CITC]",
+        "rooms": {
+            "f1": [
+                "ICpEP",
+                "Office of the Director",
+                "Career Center Office",
+                "Room 9 - 105",
+                "IPFDO",
+                "Office of Vice President for Administration and Legal Affairs",
+                "StratComm",
+                "Office of the Dean"
+            ],
+            "f2": [
+                "Room 9 - 207 (Computer Science Faculty Office [CS])",
+                "Room 9 - 206 (Technical Management Communcation Faculty Office [TCM])",
+                "Room 9 - 205",
+                "Room 9 - 204",
+                "Room 9 - 203",
+                "Room 9 - 202",
+                "Room 9 - 201",
+                "Digital Transformation Office [DTO]"
+            ],
+            "f3": [
+                "Room 9 - 306",
+                "Room 9 - 305",
+                "Room 9 - 304",
+                "Room 9 - 309",
+                "Room 9 - 303",
+                "Room 9 - 308",
+                "Room 9 - 302",
+                "Room 9 - 307",
+                "Room 9 - 301"
+            ],
+            "f4": [
+                "ICT AVR",
+                "CDO B.I.T.E.S. [BITES]",
+                "CITC Faculty Office",
+                "IT Faculty Office"
+            ]
+        }
+    },
+    "BLDG_1415-Finance_and_Accounting_BuildingHRM_Building": {
+        "name": "Finance and Accounting [HRM, BLDG BUILDING 14 15]",
+        "rooms": {
+            "f1": [
+                "Room 108",
+                "Room 107",
+                "Room 106",
+                "Room 105 - Senior High School Faculty Office [Highschool, SHS]",
+                "Room 14 - 104",
+                "Room 14 - 103",
+                "Room 14 - 102",
+                "Room 14 - 101",
+                "Motor Pool Office"
+            ]
+        }
+    },
+    "BLDG_28-Old_Science_Buidling": {
+        "name": "Old Science Complex [BUILDING BLDG 28]",
+        "rooms": {
+            "f1": [
+                "Room 28 - 101",
+                "Room 28 - 102",
+                "Room 28 - 103",
+                "Room 28 - 104",
+                "Room 28 - 105",
+                "Room 28 - 106",
+                "Room 28 - 107",
+                "Room 28 - 108",
+                "Room 28 - 109",
+                "LMC",
+                "Room 28 - 110",
+                "Room 28 - 111"
+            ]
+        }
+    },
+    "BLDG_41_Science_Complex": {
+        "name": "College of Science and Mathematics [CSM, BLDG BUILDING 41]",
+        "rooms": {
+            "f1": [
+                "Room 41 - 101",
+                "Room 41 - 102",
+                "Room 41 - 103",
+                "Room 41 - 104 - Office of Social Sciences",
+                "Room 41 - 105",
+                "CSM Faculty Office",
+                "USTP Alubijid Sub Office",
+                "USG Office",
+                "Office of Vice Chancellor for Academic Affairs"
+            ],
+            "f2": [
+                "Room 41 - 207A",
+                "Room 41 - 206",
+                "Room 41 - 205",
+                "Room 41 - 204",
+                "Room 41 - 203",
+                "Systems Biology and Bioresource Tech Lab",
+                "Room 41 - 202",
+                "Room 41 - 201"
+            ],
+            "f3": [
+                "Room 41 - 301",
+                "Room 41 - 302",
+                "Room 41 - 303",
+                "Room 41 - 304",
+                "Room 41 - 305",
+                "Room 41 - 306",
+                "Room 41 - 307",
+                "Department of Physics Faculty Office",
+                "Applied Physics Student Organization Office"
+            ],
+            "f4": [
+                "Food Science and Technology Faculty Room",
+                "Room 41 - 406",
+                "Room 41 - 405",
+                "Room 41 - 404",
+                "Room 41 - 403",
+                "Room 41 - 402",
+                "Department of Mathematical Sciences"
+            ],
+            "f5": [
+                "Room 41 - 501",
+                "Room 41 - 502",
+                "Room 41 - 503",
+                "Room 41 - 504",
+                "Room 41 - 505",
+                "Room 41 - 506",
+                "College of Science and Mathematics Dean’s Office"
+            ]
+        }
+    },
+    "BLDG_4243-_Engineering_Complex": {
+        "name": "College of Engineering and Architecture [CEA, BUILDING BLDG 42 43]",
+        "rooms": {
+            "f1": [
+                "CEA Office of the Dean",
+                "Room 43 - 101",
+                "Room 43 - 102",
+                "Office of Research Director",
+                "Research Office"
+            ],
+            "f2": [
+                "Room 42 - 204",
+                "Room 42 - 203",
+                "Room 42 - 201",
+                "Room 43 - 202",
+                "Room 43 - 201",
+                "Extension and Community Development Division"
+            ],
+            "f3": [
+                "Room 43 - 301 - CpE Faculty Office",
+                "Room 43 - 302 - EE Faculty Office",
+                "Room 42 - 301",
+                "Room 42 - 302",
+                "Room 42 - 303",
+                "Room 42 - 304"
+            ],
+            "f4": [
+                "Trailblazer Publication Office",
+                "Room 42 - 404",
+                "Room 42 - 403",
+                "Room 42 - 402",
+                "Room 42 - 401 - Campus Printing Press",
+                "Room 43 - 402",
+                "Room 43 - 401",
+                "Director of Publication",
+                "Office of the School Administration Villanueva Campus"
+            ],
+            "f5": [
+                "Planning and Monitoring Office",
+                "Chancellors Conference Room",
+                "Department of Technical and Technology Education",
+                "Room 42 - 504",
+                "Room 42 - 503",
+                "Room 42 - 502 - Department of Science Education",
+                "Room 42 - 501",
+                "CSTE Dean’s Office"
+            ],
+            "f6": [
+                "Room 43 - 602",
+                "Room 43 - 601",
+                "Performing Arts Theater [PAT]"
+            ],
+            "f7": [
+                "Architecture Faculty Office",
+                "Room 43 - 701",
+                "Room 43 - 702"
+            ],
+            "f8": [
+                "Room 43 - 802",
+                "Room 43 - 801",
+                "Mechanical Engineering Department"
+            ]
+        }
+    },
+    "BLDG_47-Technology_Building": {
+        "name": "College of Technology [COT, BLDG BUILDING 47]",
+        "rooms": {
+            "f1": [
+                "COT HIVE",
+                "Office of the Dean",
+                "ICET Faculty Office",
+                "Room 44 - 102",
+                "SCOT Faculty Office",
+                "Room 47 - 101"
+            ],
+            "f2": [
+                "RSPOT – USTP",
+                "Room 44 - 208",
+                "Room 44 - 202",
+                "Room 44 - 201",
+                "Room 44 - 207",
+                "Room 44 - 203",
+                "Room 44 - 206",
+                "Room 44 - 204",
+                "Room 44 - 205"
+            ],
+            "f3": [
+                "Room 44 - 303",
+                "Room 44 - 302",
+                "Room 44 - 301",
+                "COT AVR"
+            ]
+        }
+    },
+    "BLDG_24-Food_Trading_Building": {
+        "name": "Food Trading Building [BLDG 24]",
+        "rooms": {
+            "f1": [
+                "Room 24 - 107",
+                "Room 24 - 106",
+                "Room 24 - 105",
+                "Room 24 - 104",
+                "Room 24 - 103",
+                "Room 24 - 102",
+                "Room 24 - 101",
+                "Association of Research Innovation and Extension Services",
+                "SCSTE Faculty Office"
+            ]
+        }
+    },
+    "BLDG_25-Food_Innovation_Center": {
+        "name": "Food Innovation Center [BLDG BUILDING 25]",
+        "rooms": {
+            "f1": [
+                "Food Innovation Center",
+                "USTP Spiritual Ministry",
+                "SUMS Faculty Office",
+                "Student Council of Science and Mathematics",
+                "Room 25 - 103"
+            ]
+        }
+    },
+    "BLDG_23-Learning_Resource_Center": {
+        "name": "Learning Resource Center [LRC, BLDG BUILDING 23]",
+        "rooms": {
+            "f1": [
+                "Garments Unit",
+                "Room 23 - 102 Center for AI Office",
+                "Room 23 - 104 Registrar",
+                "Department of Technology Management",
+                "Communication, Arts, and Literature",
+                "Office of the Mechanical and Electrical Works Unit",
+                "Office of Inspection Section"
+            ],
+            "f2": [
+                "Office of the Director for Library and Audio-Visual Services",
+                "Graduate Library",
+                "E-Library",
+                "Center for Innovative Learning and Teaching"
+            ],
+            "f3": [
+                "Library"
+            ],
+            "f4": [
+                "Makerspace",
+                "Office of the Director for Innovation and Technology Solutions Division",
+                "Electronic Data Governance and Evalutation",
+                "Center for Biomass Energy",
+                "Center for Human Development",
+                "Balubal Campus Extension",
+                "Center for Advanced Plant Science and Phytotech",
+                "Center for Natural Sciences",
+                "Center for Inclusive Development Studies",
+                "Northern Mindanao Corner"
+            ],
+            "f5": [
+                "Rooftop"
+            ]
+        }
+    },
+    "BLDG_3-_Integrated_Tehnology_Building": {
+        "name": "Integrated Technology Building [BLDG 3]",
+        "rooms": {
+            "f1": [
+                "Admission and Scholarship Office",
+                "ITB - Audio Visual Room [AVR]",
+                "Office of Student Affairs [OSA]",
+                "Accreditation Center",
+                "Guidance Services Unit"
+            ]
+        }
+    }
+}
