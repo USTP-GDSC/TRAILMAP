@@ -321,5 +321,8 @@
                 "Guidance Services Unit"
             ]
         }
+    },
+    "BLDG_20_-_Cafeteria": {
+        "name": "Cafeteria [CAFFETERIA, CANTEEN, CAFET, CAFFET]"
     }
 }
