@@ -6,6 +6,7 @@ import {
 	Dimensions,
 	Animated,
 	StyleSheet,
+	Keyboard,
 } from 'react-native';
 
 import TabSheet from './TabSheet';
@@ -15,6 +16,8 @@ export default TabBar = ({ state, descriptors, navigation, sheetbody}) => {
 	const [translateValue] = useState(new Animated.Value(0));
 	const totalWidth = Dimensions.get('window').width;
 	const tabWidth = totalWidth / state.routes.length;
+	const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+
 
 	const animateSlider = index => {
 		Animated.spring(translateValue, {
@@ -25,8 +28,27 @@ export default TabBar = ({ state, descriptors, navigation, sheetbody}) => {
 	};
 
 	useEffect(() => {
+		const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+			setKeyboardVisible(true);
+		});
+		const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+			setKeyboardVisible(false);
+		});
+
+		return () => {
+			keyboardDidShowListener.remove();
+			keyboardDidHideListener.remove();
+		};
+	}, []);
+
+
+	useEffect(() => {
 		animateSlider(state.index);
 	}, [state.index]);
+
+	if (isKeyboardVisible) {
+		return null; // Return null to hide the TabBar when the keyboard is visible
+	}
 
 	return (
 		<>

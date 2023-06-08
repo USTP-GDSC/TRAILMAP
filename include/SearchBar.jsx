@@ -126,10 +126,9 @@ import { View, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 
 
-export default SearchBar = ({ _DATA, onSearchResults }) => {
+export default SearchBar = ({ _DATA, onSearchResults, onSearchCleared, onSearchFocused }) => {
   const [searchText, setSearchText] = useState('');
   const [searchResults, setSearchResults] = useState([]);
-  const dropdownRef = useRef(null);
 
   
   const handleSearch = (text) => {
@@ -278,7 +277,12 @@ export default SearchBar = ({ _DATA, onSearchResults }) => {
   const clearSearch = () => {
     setSearchText('');
     setSearchResults([]);
+    onSearchCleared();
   };
+
+  const handleFocus = () => {
+    onSearchFocused();
+  }
 
 
   return (
@@ -296,7 +300,7 @@ export default SearchBar = ({ _DATA, onSearchResults }) => {
         placeholder="Search"
         value={searchText}
         onChangeText={handleSearch}
-        ref={dropdownRef}
+        // onTouchStart={handleFocus}
       />
 
       {/* close button/icon */}

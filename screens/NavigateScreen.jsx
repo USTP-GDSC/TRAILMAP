@@ -1,5 +1,5 @@
-import { useState, useLayoutEffect } from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { useState, useLayoutEffect, useEffect } from 'react';
+import { StyleSheet, Text, View, Button, Keyboard } from 'react-native';
 import { useAssets, Asset } from 'expo-asset';
 import { WebView } from 'react-native-webview';
 
@@ -58,9 +58,7 @@ export default NavigateScreen = ({onBuildingClicked}) => {
 
 	const handleListener = event => {
 		if (event.nativeEvent.data.startsWith("onBuildingClick")) {
-			// console.warn(event.nativeEvent.data.substr(17));
 			onBuildingClicked(<Text>{event.nativeEvent.data.substr(17)}</Text>);
-			// console.warn(handleMapUpdate);
 		}
 	};
 
@@ -91,13 +89,53 @@ export default NavigateScreen = ({onBuildingClicked}) => {
 	const [mount, shouldRemount] = useState(false);
 	const [controlLock, setControlLock] = useState('auto');
 	const [searchResults, setSearchResults] = useState([]);
+	// const [isDropdowShown, setDropdownShown] = useState(false);
+	// const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
 	
+	
+	
+
+
 	// handle search results to dropdown
 	const handleSearchResults = (results) => {
+		// if (results.length > 0) setDropdownShown(true);
 		setSearchResults(results);
-		console.log(results);
 	};
+
+	// handle when search is cleared
+	const handleSearchCleared = () => {
+		setSearchResults([]);
+		setDropdownShown(false);
+	}
+
+	// handle when search is focused
+	// const handleSearchFocused = () => {
+	// 	if (searchResults.length !== 0) setDropdownShown(true);
+	// 	console.log('saghalskgjlkjsdfk');
+	// }
+
+	// handle when webview is focused
+	// const handleWebviewTouch = () => {
+	// 	console.log('webview was clicked');
+
+	// 	if (isDropdowShown) setDropdownShown(false);
+	// 	// if (isKeyboardVisible) Keyboard.dismiss();
+	// }
+
+	// useEffect(() => {
+	// 	const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+	// 	  setKeyboardVisible(true);
+	// 	});
+	// 	const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+	// 	  setKeyboardVisible(false);
+	// 	});
+	  
+	// 	return () => {
+	// 	  keyboardDidShowListener.remove();
+	// 	  keyboardDidHideListener.remove();
+	// 	};
+	//   }, []);
 
 	// handle buggy touch cancel
 	let touchCount;
@@ -145,7 +183,8 @@ export default NavigateScreen = ({onBuildingClicked}) => {
 
 	return (
 		<View style={{ flex: 1, position: 'relative' }} /*{ ...manageControlProps }*/ >
-			<WebView {...webViewProps} onTouchStart={() => console.log('webview was clicked')}
+			<WebView {...webViewProps} 
+			// onTouchStart={handleWebviewTouch}
 				injectedJavaScript={`
 					// JavaScript code that will be executed in the WebView
 					// You can use window.ReactNativeWebView.postMessage() to send messages back to React Native
@@ -153,11 +192,16 @@ export default NavigateScreen = ({onBuildingClicked}) => {
 			/>
 			
 			<View style={styles.searchBarContainer}>
-				<SearchBar _DATA={jsondata} onSearchResults={handleSearchResults}/>
+				<SearchBar 
+					_DATA={jsondata} 
+					onSearchResults={handleSearchResults}
+					onSearchCleared={handleSearchCleared}
+					// onSearchFocused={handleSearchFocused}
+				/>
 
-				{searchResults.length > 0 && (
+				{searchResults.length !== 0 ? (
 					<SearchDropdown _RESULTS={searchResults} />
-				)}
+				): <></>}
 			</View>
 	  </View>
 	);
