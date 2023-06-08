@@ -4,10 +4,10 @@
     "slug": "ustp-trailmap",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/image/icon.png",
+    "icon": "./assets/image/splash.svg",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/image/splash.png",
+      "image": "./assets/image/new.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
