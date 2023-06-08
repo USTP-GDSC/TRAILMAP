@@ -1,12 +1,10 @@
 {
-	"files.exclude": {
-		"node_modules": true,
-		".expo": true,
-		"yarn.lock": true,
-		".gitignore": true,
-		"babel.config.js": true
-	},
-	"files.associations": {
-		"*.jsr": "javascript"
-	}
+  "files.exclude": {
+    ".expo": true,
+    ".gitignore": true,
+    "babel.config.js": true
+  },
+  "files.associations": {
+    "*.jsr": "javascript"
+  }
 }

@@ -1,31 +1,42 @@
 {
-	"expo": {
-		"name": "ustp-trailmap",
-		"slug": "ustp-trailmap",
-		"version": "1.0.0",
-		"orientation": "portrait",
-		"icon": "./assets/image/icon.png",
-		"userInterfaceStyle": "light",
-		"splash": {
-			"image": "./assets/image/splash.png",
-			"resizeMode": "contain",
-			"backgroundColor": "#ffffff"
-		},
-		"updates": {
-			"fallbackToCacheTimeout": 0
-		},
-		"assetBundlePatterns": ["**/*"],
-		"ios": {
-			"supportsTablet": true
-		},
-		"android": {
-			"adaptiveIcon": {
-				"foregroundImage": "./assets/image/adaptive-icon.png",
-				"backgroundColor": "#FFFFFF"
-			}
-		},
-		"web": {
-			"favicon": "./assets/image/favicon.png"
-		}
-	}
+  "expo": {
+    "name": "ustp-trailmap",
+    "slug": "ustp-trailmap",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/image/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/image/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/42a3c52d-c092-4f3c-9c9f-d520d3535b35"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/image/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      }
+    },
+    "web": {
+      "favicon": "./assets/image/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "42a3c52d-c092-4f3c-9c9f-d520d3535b35"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    }
+  }
 }
