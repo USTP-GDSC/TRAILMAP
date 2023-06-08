@@ -121,28 +121,25 @@
 
 
 
-  import React, { useState } from 'react';
-import { View, TextInput, StyleSheet, FlatList, Text, TouchableOpacity } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { View, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 
-const SearchBar = ({ _DATA }) => {
+
+export default SearchBar = ({ _DATA, onSearchResults }) => {
   const [searchText, setSearchText] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  const dropdownRef = useRef(null);
 
+  
   const handleSearch = (text) => {
     setSearchText(text);
 
     searchAsync(text, (results) => {
       setSearchResults(results);
+      onSearchResults(results);
     });
   };
-
-
-  
-
-
-
-
     
   const searchAsync = (text, callback) => {
    
@@ -155,10 +152,10 @@ const SearchBar = ({ _DATA }) => {
           \s matches any whitespace character (spaces, tabs, line breaks, etc.).
           \d matches any digit character (0-9).
       */
-      const regex = /[()\s_\-,\[\]?]+/;
+      const regex_symbols = /[()\s_\-,\[\]?]+/;
 
       // convert input to lowercase
-      user_input = user_input.toLowerCase().trim().split(regex);
+      user_input = user_input.toLowerCase().trim().split(regex_symbols);
 
       // remove unnecessary keywords in query
       const removeWords = ['of', 'the', 'and', 'in', 'for', 'on', ''];
@@ -190,15 +187,16 @@ const SearchBar = ({ _DATA }) => {
 
           // check building names
           const bldg_name = _DATA[bldg_id].name;
-          const bldg_split = bldg_name.toLowerCase().split(regex);
+          const bldg_split = bldg_name.toLowerCase().split(regex_symbols);
           let matchCount = countStringsInArray(bldg_split, user_input);
+
+          const regex_brackets = /\[.*?\]/g;
 
           if (matchCount > 0) {
               results.push(
                   {
                       rank: matchCount, 
-                      bldg: bldg_id,
-                      name: bldg_name
+                      bldg: bldg_name.replace(regex_brackets, ""),
                   }
               );
           }
@@ -212,17 +210,32 @@ const SearchBar = ({ _DATA }) => {
               // split the user_input and find each individual keywords   
               for (const room_name of floor_rooms) {
                   
-                  const room_split = room_name.toLowerCase().split(regex);
+                  const room_split = room_name.toLowerCase().split(regex_symbols);
 
                   matchCount = countStringsInArray(room_split, user_input);
+
+                  const floorIdToNameMap = {
+                    f1: '1st Floor',
+                    f2: '2nd Floor',
+                    f3: '3rd Floor',
+                    f4: '4th Floor',
+                    f5: '5th Floor',
+                    f6: '6th Floor',
+                    f7: '7th Floor',
+                    f8: '8th Floor',
+                    f9: '9th Floor',
+                  };
+                  
+                  let floor_name = floorIdToNameMap[floor_id] || 'Unknown Floor';
+
 
                   if (matchCount > 0) {
                       results.push(
                           {
                               rank: matchCount, 
-                              floor: floor_id,
-                              bldg: bldg_id,
-                              room: room_name, 
+                              floor: floor_name,
+                              bldg: bldg_name.replace(regex_brackets, ""),
+                              room: room_name.replace(regex_brackets, ""), 
                           }
                       );
                   }
@@ -262,71 +275,35 @@ const SearchBar = ({ _DATA }) => {
     }, 0);
   };
 
-
-
-
-
-
-
-
-
   const clearSearch = () => {
     setSearchText('');
     setSearchResults([]);
   };
 
-  const renderResultItem = ({ item }) => {
-    const { bldg, floor, room, name } = item;
-    const hasRoomKey = room !== undefined;
-
-    return (
-      <TouchableOpacity style={styles.resultItem}>
-        <View style={styles.resultTextContainer}>
-          {hasRoomKey ? (
-            <>
-              <Text style={styles.resultHeader}>{room}</Text>
-              <Icon name="window" size={24} color="red" />
-            </>
-          ) : (
-            <>
-              <Icon name="cube" size={24} color="blue" />
-              <Text style={styles.resultHeader}>{bldg}</Text>
-            </>
-          )}
-          <Text style={styles.resultSubtitle}>{`${bldg} > ${floor} > ${name}`}</Text>
-        </View>
-      </TouchableOpacity>
-    );
-  };
 
   return (
     <View style={styles.container}>
+      {/* magnifying glass icon */}
       {searchText === '' ? (
         <View style={styles.searchIconContainer}>
           <Icon name="search" size={24} color="gray" />
         </View>
-      ) : (
-        <TouchableOpacity style={styles.clearIconContainer} onPress={clearSearch}>
-          <Icon name="x" size={24} color="gray" />
-        </TouchableOpacity>
-      )}
+      ) : null}
+
+      {/* input text search bar  */}
       <TextInput
         style={styles.input}
         placeholder="Search"
         value={searchText}
         onChangeText={handleSearch}
+        ref={dropdownRef}
       />
-      {searchResults.length > 0 && (
-        <View style={styles.dropdownContainer}>
-          <FlatList
-            data={searchResults}
-            renderItem={renderResultItem}
-            keyExtractor={(item) => item.bldg + item.floor + item.room}
-            contentContainerStyle={styles.dropdownContentContainer}
-            keyboardShouldPersistTaps="handled"
-            nestedScrollEnabled={true}
-          />
-        </View>
+
+      {/* close button/icon */}
+      {searchText !== '' && (
+        <TouchableOpacity style={styles.clearIconContainer} onPress={clearSearch}>
+          <Icon name="x" size={24} color="gray" />
+        </TouchableOpacity>
       )}
     </View>
   );
@@ -335,6 +312,7 @@ const SearchBar = ({ _DATA }) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '#ffffff',
     borderRadius: 50,
@@ -352,37 +330,5 @@ const styles = StyleSheet.create({
   clearIconContainer: {
     marginLeft: 10,
   },
-  dropdownContainer: {
-    position: 'absolute',
-    top: 60, // Adjust the top position as per your UI
-    left: 0,
-    right: 0,
-    backgroundColor: '#ffffff',
-    borderRadius: 5,
-    elevation: 3,
-    maxHeight: 200,
-  },
-  dropdownContentContainer: {
-    flexGrow: 1,
-  },
-  resultItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-  },
-  resultTextContainer: {
-    flex: 1,
-  },
-  resultHeader: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 5,
-  },
-  resultSubtitle: {
-    fontSize: 12,
-    color: 'gray',
-  },
 });
 
-export default SearchBar;

@@ -1,12 +1,15 @@
 import { useState, useLayoutEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
 import { useAssets, Asset } from 'expo-asset';
 import { WebView } from 'react-native-webview';
 
-import search_data from '../assets/data.json';
+import jsondata from '../assets/data.json';
 import SearchBar from '../include/SearchBar';
+import SearchDropdown from '../include/SearchDropdown';
 
 export default NavigateScreen = ({onBuildingClicked}) => {
+
+
 
 	/*manage webview*/
 	const [html, loadHTML] = useState(``);
@@ -82,10 +85,21 @@ export default NavigateScreen = ({onBuildingClicked}) => {
 	};
 
 
+
+
 	/*manage this screen*/
 	const [mount, shouldRemount] = useState(false);
 	const [controlLock, setControlLock] = useState('auto');
+	const [searchResults, setSearchResults] = useState([]);
 
+	
+	// handle search results to dropdown
+	const handleSearchResults = (results) => {
+		setSearchResults(results);
+		console.log(results);
+	};
+
+	// handle buggy touch cancel
 	let touchCount;
 	let prevTouchTimestamp = 3;
 	let currTouchTimestamp = 3;
@@ -130,16 +144,21 @@ export default NavigateScreen = ({onBuildingClicked}) => {
 
 
 	return (
-		<View style={{ flex: 1, position: 'relative' }} {...manageControlProps}>
-			<WebView {...webViewProps} 
+		<View style={{ flex: 1, position: 'relative' }} /*{ ...manageControlProps }*/ >
+			<WebView {...webViewProps} onTouchStart={() => console.log('webview was clicked')}
 				injectedJavaScript={`
 					// JavaScript code that will be executed in the WebView
 					// You can use window.ReactNativeWebView.postMessage() to send messages back to React Native
 				`}
-				/>
+			/>
+			
 			<View style={styles.searchBarContainer}>
-			<SearchBar _DATA={search_data}/>
-		</View>
+				<SearchBar _DATA={jsondata} onSearchResults={handleSearchResults}/>
+
+				{searchResults.length > 0 && (
+					<SearchDropdown _RESULTS={searchResults} />
+				)}
+			</View>
 	  </View>
 	);
 };

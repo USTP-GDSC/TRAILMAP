@@ -19,7 +19,7 @@
         }
     },
     "BLDG_9-ICT_Building": {
-        "name": "College of Information Communication Technology [BLDG BUILDING 9, CITC]",
+        "name": "College of Information Communication Technology [BLDG BUILDING 9, CITC, TECH]",
         "rooms": {
             "f1": [
                 "ICpEP",
@@ -32,8 +32,8 @@
                 "Office of the Dean"
             ],
             "f2": [
-                "Room 9 - 207 (Computer Science Faculty Office [CS])",
-                "Room 9 - 206 (Technical Management Communcation Faculty Office [TCM])",
+                "Room 9 - 207 (Computer Science Faculty Office) [CS]",
+                "Room 9 - 206 (Technical Management Communcation Faculty Office) [TCM]",
                 "Room 9 - 205",
                 "Room 9 - 204",
                 "Room 9 - 203",
@@ -131,7 +131,7 @@
                 "Applied Physics Student Organization Office"
             ],
             "f4": [
-                "Food Science and Technology Faculty Room",
+                "Food Science and Technology Faculty [TECH, SCI. ROOM]",
                 "Room 41 - 406",
                 "Room 41 - 405",
                 "Room 41 - 404",
@@ -146,7 +146,7 @@
                 "Room 41 - 504",
                 "Room 41 - 505",
                 "Room 41 - 506",
-                "College of Science and Mathematics Dean’s Office"
+                "College of Science and Mathematics Dean's Office [CSM]"
             ]
         }
     },
@@ -169,8 +169,8 @@
                 "Extension and Community Development Division"
             ],
             "f3": [
-                "Room 43 - 301 - CpE Faculty Office",
-                "Room 43 - 302 - EE Faculty Office",
+                "Room 43 - 301 - CpE Faculty [Office]",
+                "Room 43 - 302 - EE Faculty [Office]",
                 "Room 42 - 301",
                 "Room 42 - 302",
                 "Room 42 - 303",
@@ -181,7 +181,7 @@
                 "Room 42 - 404",
                 "Room 42 - 403",
                 "Room 42 - 402",
-                "Room 42 - 401 - Campus Printing Press",
+                "Room 42 - 401 - Campus Printing Press [PRINT]",
                 "Room 43 - 402",
                 "Room 43 - 401",
                 "Director of Publication",
@@ -190,12 +190,12 @@
             "f5": [
                 "Planning and Monitoring Office",
                 "Chancellors Conference Room",
-                "Department of Technical and Technology Education",
+                "Department of Technical and Technology Education [TECH, EDU, EDUC, DEPT]",
                 "Room 42 - 504",
                 "Room 42 - 503",
-                "Room 42 - 502 - Department of Science Education",
+                "Room 42 - 502 - Department of Science Education [DEPT, SCI]",
                 "Room 42 - 501",
-                "CSTE Dean’s Office"
+                "CSTE Dean's Office"
             ],
             "f6": [
                 "Room 43 - 602",
@@ -203,19 +203,19 @@
                 "Performing Arts Theater [PAT]"
             ],
             "f7": [
-                "Architecture Faculty Office",
+                "Architecture Faculty [Office]",
                 "Room 43 - 701",
                 "Room 43 - 702"
             ],
             "f8": [
                 "Room 43 - 802",
                 "Room 43 - 801",
-                "Mechanical Engineering Department"
+                "Mechanical Engineering Department [MECH, ENG, DEPT]"
             ]
         }
     },
     "BLDG_47-Technology_Building": {
-        "name": "College of Technology [COT, BLDG BUILDING 47]",
+        "name": "College of Technology [COT, BLDG, BUILDING 47, TECH]",
         "rooms": {
             "f1": [
                 "COT HIVE",
@@ -279,9 +279,9 @@
                 "Garments Unit",
                 "Room 23 - 102 Center for AI Office",
                 "Room 23 - 104 Registrar",
-                "Department of Technology Management",
+                "Department of Technology Management [TECH, MANAGE]",
                 "Communication, Arts, and Literature",
-                "Office of the Mechanical and Electrical Works Unit",
+                "Office of the Mechanical and Electrical Works Unit [MECH, ELEC]",
                 "Office of Inspection Section"
             ],
             "f2": [
@@ -295,7 +295,7 @@
             ],
             "f4": [
                 "Makerspace",
-                "Office of the Director for Innovation and Technology Solutions Division",
+                "Office of the Director for Innovation and Technology Solutions Division [INNOVATE, TECH]",
                 "Electronic Data Governance and Evalutation",
                 "Center for Biomass Energy",
                 "Center for Human Development",
@@ -311,7 +311,7 @@
         }
     },
     "BLDG_3-_Integrated_Tehnology_Building": {
-        "name": "Integrated Technology Building [BLDG 3]",
+        "name": "Integrated Technology Building [BLDG 3, TECH]",
         "rooms": {
             "f1": [
                 "Admission and Scholarship Office",
