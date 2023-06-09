@@ -13,7 +13,7 @@
 		"@gorhom/bottom-sheet": "^4.4.5",
 		"@react-native-community/masked-view": "^0.1.11",
 		"@react-navigation/bottom-tabs": "^5.*",
-		"@react-navigation/native": "5.*",
+		"@react-navigation/native": "^6.1.6",
 		"expo": "^48.0.0",
 		"expo-asset": "~8.9.1",
 		"expo-cli": "^6.3.8",

@@ -12,16 +12,10 @@ import { FadeInView } from './TabTransition';
 const Tab = createBottomTabNavigator();
 
 export default function TabWrapper() {
-  const [sheet, setSheetBody] = useState(
-	<>
-		<Text>Welcome to beta test!</Text>
-		<Text>Click a building to show their data.</Text>
-		<Text>The app is constantly being updated through expo until the final release.</Text>
-	</>
-  );
+  const [sheet, setSheetBody] = useState(null);
 
   const handleBuildingClicked = (bldgkey) => {
-	setSheetBody(<Text>{bldgkey}</Text>);
+	  setSheetBody(<Text>{bldgkey}</Text>);
   };
 
   return (

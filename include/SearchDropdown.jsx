@@ -29,9 +29,32 @@ const SearchDropdown = ({ _RESULTS }) => {
     );
   };
 
+  
+  /*
+    If you're experiencing issues where the ScrollView is interfering with the interaction of 
+    other components, such as TextInput, it could be due to the event bubbling behavior in 
+    React Native.
+
+    To resolve this issue, you can make use of the keyboardShouldPersistTaps prop on the 
+    ScrollView component. This prop controls how taps outside of the TextInput should be handled 
+    while the keyboard is open. By setting keyboardShouldPersistTaps to 'always', you can ensure 
+    that the ScrollView does not capture the taps, allowing the children components to remain 
+    interactive.  
+
+    By setting keyboardShouldPersistTaps to 'always', the ScrollView will allow taps to pass 
+    through to the underlying components, such as TouchableOpacity. This ensures that you can 
+    interact with the children components, even while the TextInput has focus.
+
+    With this update, the ScrollView will no longer interfere with the interaction of other 
+    components within the ScrollableComponent, allowing you to click on the children components 
+    without having to lose focus on the TextInput.
+  */
+
   return (
     <View style={styles.container}>
-      <ScrollView>
+      <ScrollView 
+        keyboardShouldPersistTaps="always"
+      >
         {_RESULTS.map((item, index) => (
           <Item key={index} {...item} />
         ))}

@@ -25,7 +25,7 @@ export default TabSheet = ({ children }) => {
   return (
     <BottomSheet
       ref={bottomSheetRef}
-      index={0}
+      index={-1}
       snapPoints={snapPoints}
       onChange={handleSheetChanges}
       handleStyle={styles.handle}

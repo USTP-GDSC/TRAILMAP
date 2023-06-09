@@ -1,11 +1,13 @@
 import { useState, useLayoutEffect, useEffect } from 'react';
-import { StyleSheet, Text, View, Button, Keyboard } from 'react-native';
+import { StyleSheet, Text, View, Keyboard, KeyboardAvoidingView } from 'react-native';
 import { useAssets, Asset } from 'expo-asset';
 import { WebView } from 'react-native-webview';
+import { useIsFocused } from '@react-navigation/native';
 
 import jsondata from '../assets/data.json';
 import SearchBar from '../include/SearchBar';
 import SearchDropdown from '../include/SearchDropdown';
+
 
 export default NavigateScreen = ({onBuildingClicked}) => {
 
@@ -89,17 +91,33 @@ export default NavigateScreen = ({onBuildingClicked}) => {
 	const [mount, shouldRemount] = useState(false);
 	const [controlLock, setControlLock] = useState('auto');
 	const [searchResults, setSearchResults] = useState([]);
-	// const [isDropdowShown, setDropdownShown] = useState(false);
+	const [isDropdownShown, setDropdownShown] = useState(false);
 	// const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
-	
-	
-	
 
+	const isFocused = useIsFocused();
+
+	useEffect(() => {
+	  if (!isFocused) {
+		// Perform actions when the NavigateScreen is no longer focused
+		console.log('NavigateScreen is no longer focused');
+  
+		// Example actions:
+		// - Reset some state
+		// - Clear search results
+  
+		// To reset state or clear search results, update the state or perform any desired action
+		// setControlLock('auto');
+		// setSearchResults([]);
+	  }
+	}, [isFocused]);
+
+	
 
 	// handle search results to dropdown
 	const handleSearchResults = (results) => {
-		// if (results.length > 0) setDropdownShown(true);
+		if (results.length > 0) 
+			setDropdownShown(true);
 		setSearchResults(results);
 	};
 
@@ -110,32 +128,30 @@ export default NavigateScreen = ({onBuildingClicked}) => {
 	}
 
 	// handle when search is focused
-	// const handleSearchFocused = () => {
-	// 	if (searchResults.length !== 0) setDropdownShown(true);
-	// 	console.log('saghalskgjlkjsdfk');
-	// }
+	const handleSearchFocused = () => {
+		console.log('yow na click ang search');
+		if (searchResults.length > 0) 
+			setDropdownShown(true);
+	}
 
 	// handle when webview is focused
-	// const handleWebviewTouch = () => {
-	// 	console.log('webview was clicked');
+	const handleWebviewTouch = () => {
+		// Perform actions when clicking outside the search bar and search dropdown
+		console.log('Clicked outside');
 
-	// 	if (isDropdowShown) setDropdownShown(false);
-	// 	// if (isKeyboardVisible) Keyboard.dismiss();
-	// }
+		// Example actions:
+		// - Hide the search dropdown
+		// - Dismiss the keyboard
+	
+		// To hide the search dropdown, update the state or perform any desired action
+		if (isDropdownShown)	
+			setDropdownShown(false);
 
-	// useEffect(() => {
-	// 	const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
-	// 	  setKeyboardVisible(true);
-	// 	});
-	// 	const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
-	// 	  setKeyboardVisible(false);
-	// 	});
-	  
-	// 	return () => {
-	// 	  keyboardDidShowListener.remove();
-	// 	  keyboardDidHideListener.remove();
-	// 	};
-	//   }, []);
+		// To dismiss the keyboard, you can use the Keyboard.dismiss() method from 'react-native'
+		if (Keyboard.isVisible()) 
+			Keyboard.dismiss();
+	}
+
 
 	// handle buggy touch cancel
 	let touchCount;
@@ -182,32 +198,40 @@ export default NavigateScreen = ({onBuildingClicked}) => {
 
 
 	return (
-		<View style={{ flex: 1, position: 'relative' }} /*{ ...manageControlProps }*/ >
-			<WebView {...webViewProps} 
-			// onTouchStart={handleWebviewTouch}
+		<KeyboardAvoidingView style={styles.container} behavior="height">
+			<View style={styles.webviewContainer}>
+				<WebView {...webViewProps} onTouchStart={handleWebviewTouch} 
+				
 				injectedJavaScript={`
-					// JavaScript code that will be executed in the WebView
-					// You can use window.ReactNativeWebView.postMessage() to send messages back to React Native
-				`}
-			/>
-			
+							// JavaScript code that will be executed in the WebView
+							// You can use window.ReactNativeWebView.postMessage() to send messages back to React Native
+						`}
+				/>
+			</View>
+
 			<View style={styles.searchBarContainer}>
-				<SearchBar 
-					_DATA={jsondata} 
-					onSearchResults={handleSearchResults}
-					onSearchCleared={handleSearchCleared}
-					// onSearchFocused={handleSearchFocused}
+				<SearchBar
+				_DATA={jsondata}
+				onSearchResults={handleSearchResults}
+				onSearchCleared={handleSearchCleared}
+				onSearchFocused={handleSearchFocused}
 				/>
 
-				{searchResults.length !== 0 ? (
-					<SearchDropdown _RESULTS={searchResults} />
-				): <></>}
+				{isDropdownShown && <SearchDropdown _RESULTS={searchResults} />}
 			</View>
-	  </View>
+    	</KeyboardAvoidingView>
+
 	);
 };
 
 const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+	},
+	webviewContainer: {
+		flex: 1,
+		backgroundColor: '#D5D9E6',
+	},
 	searchBarContainer: {
 	  position: 'absolute',
 	  top: 45,
@@ -215,5 +239,5 @@ const styles = StyleSheet.create({
 	  right: 10,
 	  zIndex: 1, // Ensure the search bar appears on top of other elements
 	},
-  });
+});
   

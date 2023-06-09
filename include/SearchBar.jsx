@@ -300,7 +300,7 @@ export default SearchBar = ({ _DATA, onSearchResults, onSearchCleared, onSearchF
         placeholder="Search"
         value={searchText}
         onChangeText={handleSearch}
-        // onTouchStart={handleFocus}
+        onTouchStart={handleFocus}
       />
 
       {/* close button/icon */}
