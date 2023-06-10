@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Keyboard, KeyboardAvoidingView } from 'react-na
 import { useAssets, Asset } from 'expo-asset';
 import { WebView } from 'react-native-webview';
 import { useIsFocused } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/Feather';
 
 import jsondata from '../assets/data.json';
 import SearchBar from '../include/SearchBar';
@@ -58,9 +59,63 @@ export default NavigateScreen = ({onBuildingClicked}) => {
 		);
 	});
 
-	const handleListener = event => {
+	const handleWebviewMessage = event => {
+		const SheetBuildingInfo = (key) => {
+		
+			const name = jsondata[key].name.replace(/\[.*?\]/g, '').trim();
+	
+			const infoStyle = StyleSheet.create({
+				container: {
+					backgroundColor: '#D2EEFF',
+					paddingVertical: 10,
+					paddingHorizontal: 15,
+					flexDirection: 'row',
+					alignItems: 'center',
+					borderRadius: 12,
+					height: 80
+				},
+				supheader: {
+					fontSize: 12,
+					color: 'grey'
+				},	
+				header: {
+					fontSize: 16,
+					fontWeight: 'bold'
+				},
+				iconBody: {
+					backgroundColor: '#3182CE',
+					borderRadius: 45,
+					width: 45,
+					height: 45,
+					flexDirection: 'row',
+					alignItems: 'center',
+					justifyContent: 'center',
+				},
+				information: {
+					marginLeft: 12,
+					borderWidth: 2,
+					borderColor: 'green',
+				}
+			});
+	
+			return (
+				<View style={infoStyle.container}>
+					<View style={infoStyle.iconBody}>
+						<Icon name="map-pin" size={24} color="#ffffff" />
+					</View>
+					<View style={infoStyle.information}>
+						<Text style={infoStyle.supheader}>Building 22</Text>	
+						<Text style={infoStyle.header}>{name}</Text>
+					</View>
+				</View>
+			);
+		};
+
 		if (event.nativeEvent.data.startsWith("onBuildingClick")) {
-			onBuildingClicked(<Text>{event.nativeEvent.data.substr(17)}</Text>);
+
+			const key = event.nativeEvent.data.substr(17);
+
+			onBuildingClicked(SheetBuildingInfo(key));
 		}
 	};
 
@@ -81,7 +136,7 @@ export default NavigateScreen = ({onBuildingClicked}) => {
 		allowUniversalAccessFromFileURLs: true,
 
 		source: { html },
-		onMessage: handleListener,		
+		onMessage: handleWebviewMessage,		
 	};
 
 
@@ -100,7 +155,7 @@ export default NavigateScreen = ({onBuildingClicked}) => {
 	useEffect(() => {
 	  if (!isFocused) {
 		// Perform actions when the NavigateScreen is no longer focused
-		console.log('NavigateScreen is no longer focused');
+		// console.log('NavigateScreen is no longer focused');
   
 		// Example actions:
 		// - Reset some state
@@ -129,7 +184,6 @@ export default NavigateScreen = ({onBuildingClicked}) => {
 
 	// handle when search is focused
 	const handleSearchFocused = () => {
-		console.log('yow na click ang search');
 		if (searchResults.length > 0) 
 			setDropdownShown(true);
 	}
@@ -137,7 +191,6 @@ export default NavigateScreen = ({onBuildingClicked}) => {
 	// handle when webview is focused
 	const handleWebviewTouch = () => {
 		// Perform actions when clicking outside the search bar and search dropdown
-		console.log('Clicked outside');
 
 		// Example actions:
 		// - Hide the search dropdown
@@ -190,7 +243,7 @@ export default NavigateScreen = ({onBuildingClicked}) => {
 		},
 
 		onTouchCancel: evt => {
-			console.warn('A secret has been opened..');
+			// console.warn('A secret has been opened..');
 			shouldRemount(!mount);
 			setControlLock('auto');
 		},

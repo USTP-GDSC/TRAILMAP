@@ -7,32 +7,30 @@ import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import TabBar from './TabBar';
 import DemoScreen from '../screens/DemoScreen';
 import NavigateScreen from '../screens/NavigateScreen';
-import { FadeInView } from './TabTransition';
+import { FadeInView } from './TabTransition'; 
 
 const Tab = createBottomTabNavigator();
 
 export default function TabWrapper() {
   const [sheet, setSheetBody] = useState(null);
 
-  const handleBuildingClicked = (bldgkey) => {
-	  setSheetBody(<Text>{bldgkey}</Text>);
-  };
+  const handleBuildingClicked = (children) => setSheetBody(children);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <NavigationContainer>
         <BottomSheetModalProvider>
           <Tab.Navigator
-            initialRouteName="map-pin"
+            initialRouteName="map"
             tabBar={props => <TabBar {...props} sheetbody={sheet} />}
           >
             <Tab.Screen
-              name="map-pin"
+              name="map"
               options={{ headerShown: false }}
             >
               {() => (
                 <FadeInView>
-                  <NavigateScreen name="map-pin" onBuildingClicked={handleBuildingClicked} />
+                  <NavigateScreen name="map" onBuildingClicked={handleBuildingClicked} />
                 </FadeInView>
               )}
             </Tab.Screen>

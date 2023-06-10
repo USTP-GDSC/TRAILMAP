@@ -7,7 +7,7 @@ export default TabSheet = ({ children }) => {
   const bottomSheetRef = useRef(null);
 
   // variables
-  const snapPoints = useMemo(() => [220, 400], []);
+  const snapPoints = useMemo(() => [210, 400], []);
 
   // callbacks
   const handleSheetChanges = useCallback((index) => {
@@ -42,7 +42,8 @@ export default TabSheet = ({ children }) => {
 const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
-    padding: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 15,
     backgroundColor: 'whitesmoke',
   },
   handle: {
