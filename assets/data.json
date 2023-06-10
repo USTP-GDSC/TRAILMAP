@@ -1,5 +1,6 @@
 {
     "BLDG_5_-_Old_Engineering_Building": {
+        "no": "5",
         "name": "Old Engineering Building [BLDG 5]",
         "rooms": {
             "f1": [
@@ -18,7 +19,8 @@
             ]
         }
     },
-    "BLDG_9-ICT_Building": {
+    "BLDG_9_-_ICT_Building": {
+        "no": "9",
         "name": "College of Information Communication Technology [BLDG BUILDING 9, CITC, TECH]",
         "rooms": {
             "f1": [
@@ -60,7 +62,8 @@
             ]
         }
     },
-    "BLDG_1415-Finance_and_Accounting_BuildingHRM_Building": {
+    "BLDG_1415_-_Finance_and_Accounting_BuildingHRM_Building": {
+        "no": "14 & 15",
         "name": "Finance and Accounting [HRM, BLDG BUILDING 14 15]",
         "rooms": {
             "f1": [
@@ -76,7 +79,8 @@
             ]
         }
     },
-    "BLDG_28-Old_Science_Buidling": {
+    "BLDG_28_-_Old_Science_Buidling": {
+        "no": "28",
         "name": "Old Science Complex [BUILDING BLDG 28]",
         "rooms": {
             "f1": [
@@ -96,6 +100,7 @@
         }
     },
     "BLDG_41_Science_Complex": {
+        "no": "41",
         "name": "College of Science and Mathematics [CSM, BLDG BUILDING 41]",
         "rooms": {
             "f1": [
@@ -150,7 +155,8 @@
             ]
         }
     },
-    "BLDG_4243-_Engineering_Complex": {
+    "BLDG_4243_-__Engineering_Complex": {
+        "no": "42 & 43",
         "name": "College of Engineering and Architecture [CEA, BUILDING BLDG 42 43]",
         "rooms": {
             "f1": [
@@ -214,7 +220,8 @@
             ]
         }
     },
-    "BLDG_47-Technology_Building": {
+    "BLDG_47_-_Technology_Building": {
+        "no": "47",
         "name": "College of Technology [COT, BLDG, BUILDING 47, TECH]",
         "rooms": {
             "f1": [
@@ -244,7 +251,8 @@
             ]
         }
     },
-    "BLDG_24-Food_Trading_Building": {
+    "BLDG_24_-_Food_Trading_Building": {
+        "no": "24",
         "name": "Food Trading Building [BLDG 24]",
         "rooms": {
             "f1": [
@@ -260,8 +268,9 @@
             ]
         }
     },
-    "BLDG_25-Food_Innovation_Center": {
-        "name": "Food Innovation Center [BLDG BUILDING 25]",
+    "BLDG_25_-_Food_Innovation_Center": {
+        "no": "25",
+        "name": "Food Innovation Center [BUILDING, BLDG 25]",
         "rooms": {
             "f1": [
                 "Food Innovation Center",
@@ -272,7 +281,12 @@
             ]
         }
     },
-    "BLDG_23-Learning_Resource_Center": {
+    "BLDG_26_-_Food_Innovation_Center": {
+        "no": "26",
+        "name": "New Food Innovation Center [BUILDING, BLDG 26]"
+    },
+    "BLDG_23_-_Learning_Resource_Center": {
+        "no": "23",
         "name": "Learning Resource Center [LRC, BLDG BUILDING 23]",
         "rooms": {
             "f1": [
@@ -310,7 +324,8 @@
             ]
         }
     },
-    "BLDG_3-_Integrated_Tehnology_Building": {
+    "BLDG_3_-_Integrated_Tehnology_Building": {
+        "no": "3",
         "name": "Integrated Technology Building [BLDG 3, TECH]",
         "rooms": {
             "f1": [
@@ -323,6 +338,97 @@
         }
     },
     "BLDG_20_-_Cafeteria": {
-        "name": "Cafeteria [CAFFETERIA, CANTEEN, CAFET, CAFFET]"
+        "no": "20",
+        "name": "Cafeteria [CAFFETERIA, CANTEEN, CAFET, CAFFET, BUILDING, BLDG 20]"
+    },
+    "BLDG_16_-_RER_Memorial_hall": {
+        "no": "16",
+        "name": "Dr. Ricardo Rotoras Memorial Hall [GYM, STAGE, BUILDING, BLDG 16]"
+    },
+    "BLDG_44_-_Student_Center_&_Education_Complex": {
+        "no": "44",
+        "name": "Student Center & Education Complex [BUILDING, BLDG 44]"
+    },
+    "BLDG_19_Science_Centrum_Building": {
+        "no": "19",
+        "name": "Science Centrum Building [BLDG 19]"
+    },
+    "BLDG_18_-_Culinary_Building": {
+        "no": "18",
+        "name": "Culinary Arts Building [BLDG 18]"
+    },
+    "BLDG_10_-_Administration_Building": {
+        "no": "10",
+        "name": "Administration Building [BLDG 10]"
+    },
+    "BLDG_53_-_Residences": {
+        "no": "53",
+        "name": "Residences [BUILDING, BLDG 53]"
+    },
+    "BLDG_54_-_FIC_Extension": {
+        "no": "54",
+        "name": "FIC Extension [BUILDING, BLDG 54]"
+    },
+    "PE_Building": {
+        "name": "Physical Education Building [BLDG, GYM]"
+    },
+    "BLDG_27_-_Old_Medical_Building": {
+        "no": "27",
+        "name": "Old Medical Building [BLDG 27]"
+    },
+    "BLDG_48_-_Fabrication_Laboratory": {
+        "no": "48",
+        "name": "Fabrication Laboratory [BUILDING, BLDG 48]"
+    },
+    "BLDG_52_Sump_Pit": {
+        "no": "52",
+        "name": "Sump Pit [BUILDING, BLDG 52]"
+    },
+    "BLDG_36_-_Old_Student_Center": {
+        "no": "36",
+        "name": "Old Student Center [BUILDING, BLDG 36]"
+    },
+    "BLDG_35_-_Old_Education_Building": {
+        "no": "35",
+        "name": "Old Education Building [BLDG 35]"
+    },
+    "Study_Shed_2": {
+        "name": "Study Shed"
+    },
+    "Study_Shed_1": {
+        "name": "Study Shed"
+    },
+    "Study_Shed_3": {
+        "name": "Study Shed"
+    },
+    "Study_Shed_4": {
+        "name": "Study Shed"
+    },
+    "Snack_Area": {
+        "name": "Snack Area"
+    },
+    "BLDG_21_-_Guard_House": {
+        "no": "21",
+        "name": "Guard House [BUILDING, BLDG 21]"
+    },
+    "BLDG_4_-_ROTC_Building": {
+        "no": "4",
+        "name": "ROTC [BUILDING, BLDG 4]"
+    },
+    "BLDG_6": {
+        "no": "6",
+        "name": "Building 6 [BLDG]"
+    },
+    "BLDG_F_-_Toilet": {
+        "no": "F",
+        "name": "Toilet [BUILDING, BLDG F]"
+    },
+    "BLDG_1_-_Arts_and_Culture_Building": {
+        "no": "1",
+        "name": "Arts and Culture Building [BLDG 1]"
+    },
+    "BLDG_45_-_Supply_Office": {
+        "no": "45",
+        "name": "Supply Office [BUILDING, BLDG 45]"
     }
 }
