@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -69,25 +69,42 @@ export default function TabWrapper() {
 }
 
 // InitialSheetBody component to be rendered only once
-const InitialSheetBody = () => {
 
+const InitialSheetBody = () => {
   const styles = StyleSheet.create({
     container: {
-      marginTop: 10,
-    },  
+      marginTop: 12,
+      flexDirection: 'row',
+    },
+    textContainer: {
+      marginLeft: 14,
+    },
     headerText: {
       fontSize: 20,
-      fontWeight: '500'
+      fontWeight: '500',
     },
     subHeaderText: {
-      color: 'grey'
-    }
+      fontSize: 12,
+      color: 'grey',
+    },
+    logo: {
+      height: 45, // Set the desired height of the image
+      width: undefined, // Set the width to undefined to maintain aspect ratio
+      aspectRatio: 1, // Set the desired aspect ratio (width:height) of the image
+    },
   });
-  // Initial body content
+
   return (
     <View style={styles.container}>
-      <Text style={styles.headerText}>Welcome To Trailmap Beta Test!</Text>
-      <Text style={styles.subHeaderText}>by Google Developer Student Clubs USTP</Text>
+      <Image
+        source={require('../assets/image/gdscLogo.png')}
+        style={styles.logo}
+        resizeMode="contain" // Adjust the resizeMode prop value
+      />
+      <View style={styles.textContainer}>
+        <Text style={styles.headerText}>Welcome To Trailmap Beta!</Text>
+        <Text style={styles.subHeaderText}>by Google Developer Student Clubs USTP</Text>
+      </View>
     </View>
   );
 };
