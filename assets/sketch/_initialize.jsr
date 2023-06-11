@@ -50,7 +50,7 @@ class Scene extends THREE.Scene {
 
 	// Create a box to visualize the shadow camera frustum
 	const shadowCameraHelper = new THREE.CameraHelper(this.shadow.camera);
-	this.add(shadowCameraHelper);
+	// this.add(shadowCameraHelper);
 	}
 }
 
@@ -200,8 +200,9 @@ class Control extends _Control(THREE) {
 	  );
 	  this.border = box;
   
-	  const boxHelper = new THREE.Box3Helper(box, 0xffff00);
-	  this.scene.add(boxHelper);
+		// show border box helper
+		//   const boxHelper = new THREE.Box3Helper(box, 0xffff00);
+		//   this.scene.add(boxHelper);
   
 	  let meshGroup = world.scene.children;
 	  meshGroup = meshGroup.filter((mesh) => {
@@ -374,8 +375,6 @@ class Control extends _Control(THREE) {
 	control.gotoStart();
 	control.setBoundary(world.border);
 
-	let totalPolygonCount = 0;
-
 
 	// Disable reflections for all materials
 	const disableReflections = (material) => {
@@ -383,6 +382,10 @@ class Control extends _Control(THREE) {
 		material.metalness = 0;
 		material.roughness = 1;
 	};
+
+	/*
+
+	let totalPolygonCount = 0;
 
 	scene.traverse((child) => {	  
 		if (child instanceof THREE.Mesh) {
@@ -417,6 +420,8 @@ class Control extends _Control(THREE) {
 	});
 
 	console.log(`Polycount: ${totalPolygonCount}`);
+
+	*/
 
 	renderer.shadowMap.needsUpdate = true;
   });
