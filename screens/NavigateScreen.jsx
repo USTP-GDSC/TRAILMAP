@@ -1,5 +1,5 @@
 import { useState, useLayoutEffect, useEffect, forwardRef } from 'react';
-import { StyleSheet, Text, View, Keyboard, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Text, View, Button, Keyboard, KeyboardAvoidingView } from 'react-native';
 import { useAssets, Asset } from 'expo-asset';
 import { WebView } from 'react-native-webview';
 import { useIsFocused } from '@react-navigation/native';
@@ -59,77 +59,7 @@ export default NavigateScreen = forwardRef(({ onBuildingClicked }, ref) => {
 		);
 	});
 
-	const handleWebviewMessage = event => {
-	
-		
-
-		const SheetBuildingInfo = (key) => {
-			const name = jsondata[key].name.replace(/\[.*?\]/g, '').trim();
-			const bldgno = jsondata[key].no;
-		  
-			const infoStyle = StyleSheet.create({
-			  container: {
-				backgroundColor: '#D2EEFF',
-				paddingVertical: 10,
-				paddingHorizontal: 15,
-				flexDirection: 'row',
-				alignItems: 'center',
-				borderRadius: 12,
-				height: 80,
-			  },
-			  supheader: {
-				fontSize: 12,
-				color: 'grey',
-			  },
-			  header: {
-				fontSize: 15,
-				fontWeight: 'bold',
-			  },
-			  iconBody: {
-				backgroundColor: '#3182CE',
-				borderRadius: 45,
-				width: 45,
-				height: 45,
-				flexDirection: 'row',
-				alignItems: 'center',
-				justifyContent: 'center',
-			  },
-			  information: {
-				marginLeft: 12,
-				// borderWidth: 2,
-				// borderColor: 'green',
-				flex: 1,
-				justifyContent: 'center',
-			  },
-			  textContainer: {
-				justifyContent: 'center',
-				flex: 1,
-			  },
-			});
-		  
-			return (
-			  <View style={infoStyle.container}>
-				<View style={infoStyle.iconBody}>
-				  <Icon name="map-pin" size={24} color="#ffffff" />
-				</View>
-				<View style={infoStyle.information}>
-				  <View style={infoStyle.textContainer}>
-					{
-						bldgno !== undefined &&
-						<Text style={infoStyle.supheader}>Building {bldgno}</Text>
-					}
-					<Text style={infoStyle.header} numberOfLines={2}>
-					  {name}
-					</Text>
-				  </View>
-				</View>
-			  </View>
-			);
-		  };
-		  
-			  
-		  
-
+	const handleWebviewMessage = event => {	  
 
 		if (event.nativeEvent.data.startsWith("onBuildingClick")) {
 
@@ -189,7 +119,70 @@ export default NavigateScreen = forwardRef(({ onBuildingClicked }, ref) => {
 	  }
 	}, [isFocused]);
 
-	
+	const SheetBuildingInfo = (key) => {
+		const name = jsondata[key].name.replace(/\[.*?\]/g, '').trim();
+		const bldgno = jsondata[key].no;
+	  
+		const infoStyle = StyleSheet.create({
+		  container: {
+			backgroundColor: '#D2EEFF',
+			paddingVertical: 10,
+			paddingHorizontal: 15,
+			flexDirection: 'row',
+			alignItems: 'center',
+			borderRadius: 12,
+			height: 80,
+		  },
+		  supheader: {
+			fontSize: 12,
+			color: 'grey',
+		  },
+		  header: {
+			fontSize: 15,
+			fontWeight: 'bold',
+		  },
+		  iconBody: {
+			backgroundColor: '#3182CE',
+			borderRadius: 45,
+			width: 45,
+			height: 45,
+			flexDirection: 'row',
+			alignItems: 'center',
+			justifyContent: 'center',
+		  },
+		  information: {
+			marginLeft: 12,
+			// borderWidth: 2,
+			// borderColor: 'green',
+			flex: 1,
+			justifyContent: 'center',
+		  },
+		  textContainer: {
+			justifyContent: 'center',
+			flex: 1,
+		  },
+		});
+	  
+		return (
+		  <View style={infoStyle.container}>
+			<View style={infoStyle.iconBody}>
+			  <Icon name="map-pin" size={24} color="#ffffff" />
+			</View>
+			<View style={infoStyle.information}>
+			  <View style={infoStyle.textContainer}>
+				{
+					bldgno !== undefined &&
+					<Text style={infoStyle.supheader}>Building {bldgno}</Text>
+				}
+				<Text style={infoStyle.header} numberOfLines={2}>
+				  {name}
+				</Text>
+			  </View>
+			</View>
+		  </View>
+		);
+	};
+	  
 
 	// handle search results to dropdown
 	const handleSearchResults = (results) => {
@@ -208,6 +201,22 @@ export default NavigateScreen = forwardRef(({ onBuildingClicked }, ref) => {
 	const handleSearchFocused = () => {
 		if (searchResults.length > 0) 
 			setDropdownShown(true);
+	}
+
+	// handle when dropdown item clicked
+	const handleItemClicked = (keyid) => {
+		if (ref.current) {
+			ref.current.injectJavaScript(
+				`control.setLookAt(..._Coordinates["${keyid}"], true);`);
+			
+			onBuildingClicked(SheetBuildingInfo(keyid));
+
+			if (isDropdownShown)	
+				setDropdownShown(false);
+
+			if (Keyboard.isVisible()) 
+				Keyboard.dismiss();
+		}
 	}
 
 	// handle when webview is focused
@@ -271,14 +280,17 @@ export default NavigateScreen = forwardRef(({ onBuildingClicked }, ref) => {
 		},
 	};
 
-
 	return (
 		<KeyboardAvoidingView style={styles.container} behavior="height">
+		
+
 			<View style={styles.webviewContainer}>
 				<WebView {...webViewProps} />
 			</View>
 
+
 			<View style={styles.searchBarContainer}>
+
 				<SearchBar
 				_DATA={jsondata}
 				onSearchResults={handleSearchResults}
@@ -286,8 +298,10 @@ export default NavigateScreen = forwardRef(({ onBuildingClicked }, ref) => {
 				onSearchFocused={handleSearchFocused}
 				/>
 
-				{isDropdownShown && <SearchDropdown _RESULTS={searchResults} />}
+				{isDropdownShown && <SearchDropdown _RESULTS={searchResults} onItemClicked={handleItemClicked} />}
 			</View>
+
+			
     	</KeyboardAvoidingView>
 
 	);

@@ -2,13 +2,17 @@ import React from 'react';
 import { StyleSheet, View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const SearchDropdown = ({ _RESULTS }) => {
+const SearchDropdown = ({ _RESULTS, onItemClicked}) => {
   const Item = (dt) => {
-    const { bldg, floor, room } = dt;
+    const { id, bldg, floor, room } = dt;
     const hasRoomKey = room !== undefined;
 
+    const handleItemClicked = () => {
+      onItemClicked(id);
+    }
+
     return (
-      <TouchableOpacity style={styles.resultItem}>
+      <TouchableOpacity style={styles.resultItem} onPress={handleItemClicked}>
         <View style={styles.resultTextContainer}>
           {hasRoomKey ? (
             <>

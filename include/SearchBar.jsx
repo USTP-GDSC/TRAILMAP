@@ -194,6 +194,7 @@ export default SearchBar = ({ _DATA, onSearchResults, onSearchCleared, onSearchF
           if (matchCount > 0) {
               results.push(
                   {
+                      id: bldg_id,
                       rank: matchCount, 
                       bldg: bldg_name.replace(regex_brackets, ""),
                   }
@@ -231,6 +232,7 @@ export default SearchBar = ({ _DATA, onSearchResults, onSearchCleared, onSearchF
                   if (matchCount > 0) {
                       results.push(
                           {
+                              id: bldg_id,
                               rank: matchCount, 
                               floor: floor_name,
                               bldg: bldg_name.replace(regex_brackets, ""),
