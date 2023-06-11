@@ -69,6 +69,23 @@ export default NavigateScreen = forwardRef(({ onBuildingClicked }, ref) => {
 		}
 	};
 
+	// handle when webview is focused
+	const handleWebviewTouch = () => {
+		// Perform actions when clicking outside the search bar and search dropdown
+
+		// Example actions:
+		// - Hide the search dropdown
+		// - Dismiss the keyboard
+	
+		// To hide the search dropdown, update the state or perform any desired action
+		if (isDropdownShown)	
+			setDropdownShown(false);
+
+		// To dismiss the keyboard, you can use the Keyboard.dismiss() method from 'react-native'
+		if (Keyboard.isVisible()) 
+			Keyboard.dismiss();
+	}
+
 	const webViewProps = {
 		style: { backgroundColor: '#D5D9E6' },
 
@@ -218,24 +235,6 @@ export default NavigateScreen = forwardRef(({ onBuildingClicked }, ref) => {
 				Keyboard.dismiss();
 		}
 	}
-
-	// handle when webview is focused
-	const handleWebviewTouch = () => {
-		// Perform actions when clicking outside the search bar and search dropdown
-
-		// Example actions:
-		// - Hide the search dropdown
-		// - Dismiss the keyboard
-	
-		// To hide the search dropdown, update the state or perform any desired action
-		if (isDropdownShown)	
-			setDropdownShown(false);
-
-		// To dismiss the keyboard, you can use the Keyboard.dismiss() method from 'react-native'
-		if (Keyboard.isVisible()) 
-			Keyboard.dismiss();
-	}
-
 
 	// handle buggy touch cancel
 	let touchCount;
