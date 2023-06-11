@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect, useEffect } from 'react';
+import { useState, useLayoutEffect, useEffect, forwardRef } from 'react';
 import { StyleSheet, Text, View, Keyboard, KeyboardAvoidingView } from 'react-native';
 import { useAssets, Asset } from 'expo-asset';
 import { WebView } from 'react-native-webview';
@@ -10,7 +10,7 @@ import SearchBar from '../include/SearchBar';
 import SearchDropdown from '../include/SearchDropdown';
 
 
-export default NavigateScreen = ({onBuildingClicked}) => {
+export default NavigateScreen = forwardRef(({ onBuildingClicked }, ref) => {
 
 
 
@@ -60,56 +60,76 @@ export default NavigateScreen = ({onBuildingClicked}) => {
 	});
 
 	const handleWebviewMessage = event => {
-		const SheetBuildingInfo = (key) => {
+	
 		
+
+		const SheetBuildingInfo = (key) => {
 			const name = jsondata[key].name.replace(/\[.*?\]/g, '').trim();
-	
+			const bldgno = jsondata[key].no;
+		  
 			const infoStyle = StyleSheet.create({
-				container: {
-					backgroundColor: '#D2EEFF',
-					paddingVertical: 10,
-					paddingHorizontal: 15,
-					flexDirection: 'row',
-					alignItems: 'center',
-					borderRadius: 12,
-					height: 80
-				},
-				supheader: {
-					fontSize: 12,
-					color: 'grey'
-				},	
-				header: {
-					fontSize: 16,
-					fontWeight: 'bold'
-				},
-				iconBody: {
-					backgroundColor: '#3182CE',
-					borderRadius: 45,
-					width: 45,
-					height: 45,
-					flexDirection: 'row',
-					alignItems: 'center',
-					justifyContent: 'center',
-				},
-				information: {
-					marginLeft: 12,
-					borderWidth: 2,
-					borderColor: 'green',
-				}
+			  container: {
+				backgroundColor: '#D2EEFF',
+				paddingVertical: 10,
+				paddingHorizontal: 15,
+				flexDirection: 'row',
+				alignItems: 'center',
+				borderRadius: 12,
+				height: 80,
+			  },
+			  supheader: {
+				fontSize: 12,
+				color: 'grey',
+			  },
+			  header: {
+				fontSize: 15,
+				fontWeight: 'bold',
+			  },
+			  iconBody: {
+				backgroundColor: '#3182CE',
+				borderRadius: 45,
+				width: 45,
+				height: 45,
+				flexDirection: 'row',
+				alignItems: 'center',
+				justifyContent: 'center',
+			  },
+			  information: {
+				marginLeft: 12,
+				// borderWidth: 2,
+				// borderColor: 'green',
+				flex: 1,
+				justifyContent: 'center',
+			  },
+			  textContainer: {
+				justifyContent: 'center',
+				flex: 1,
+			  },
 			});
-	
+		  
 			return (
-				<View style={infoStyle.container}>
-					<View style={infoStyle.iconBody}>
-						<Icon name="map-pin" size={24} color="#ffffff" />
-					</View>
-					<View style={infoStyle.information}>
-						<Text style={infoStyle.supheader}>Building 22</Text>	
-						<Text style={infoStyle.header}>{name}</Text>
-					</View>
+			  <View style={infoStyle.container}>
+				<View style={infoStyle.iconBody}>
+				  <Icon name="map-pin" size={24} color="#ffffff" />
 				</View>
+				<View style={infoStyle.information}>
+				  <View style={infoStyle.textContainer}>
+					{
+						bldgno !== undefined &&
+						<Text style={infoStyle.supheader}>Building {bldgno}</Text>
+					}
+					<Text style={infoStyle.header} numberOfLines={2}>
+					  {name}
+					</Text>
+				  </View>
+				</View>
+			  </View>
 			);
-		};
+		  };
+		  
+			  
+		  
+
 
 		if (event.nativeEvent.data.startsWith("onBuildingClick")) {
 
@@ -135,8 +155,10 @@ export default NavigateScreen = ({onBuildingClicked}) => {
 		mixedContentMode: 'always',
 		allowUniversalAccessFromFileURLs: true,
 
+		ref,
 		source: { html },
 		onMessage: handleWebviewMessage,		
+		onTouchStart: handleWebviewTouch
 	};
 
 
@@ -253,13 +275,7 @@ export default NavigateScreen = ({onBuildingClicked}) => {
 	return (
 		<KeyboardAvoidingView style={styles.container} behavior="height">
 			<View style={styles.webviewContainer}>
-				<WebView {...webViewProps} onTouchStart={handleWebviewTouch} 
-				
-				injectedJavaScript={`
-							// JavaScript code that will be executed in the WebView
-							// You can use window.ReactNativeWebView.postMessage() to send messages back to React Native
-						`}
-				/>
+				<WebView {...webViewProps} />
 			</View>
 
 			<View style={styles.searchBarContainer}>
@@ -275,7 +291,7 @@ export default NavigateScreen = ({onBuildingClicked}) => {
     	</KeyboardAvoidingView>
 
 	);
-};
+});
 
 const styles = StyleSheet.create({
 	container: {

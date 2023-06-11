@@ -130,264 +130,6 @@ class Cloud extends THREE.Object3D {
 }
 
 
-class World {
-	constructor(scene, callback) {
-		this.scene = scene;
-		this.callback = callback;
-		new _Loader().parse(_Model, '', this.onLoad, this.onError);
-	}
-
-	onLoad = (world) => {
-		this.scene.add(world.scene);
-
-		// Create a Box3 object to define the boundaries of the box
-		const box = new THREE.Box3(
-			new THREE.Vector3(-200, 0, -200), // Minimum corner of the box
-			new THREE.Vector3(200, 800, 200)     // Maximum corner of the box
-		);
-
-		this.border = box;
-	
-		// Create a Box3Helper to generate a wireframe representation of the box
-		const boxHelper = new THREE.Box3Helper(box, 0xffff00); // Yellow color
-	
-		// Add the Box3Helper to the world scene
-		this.scene.add(boxHelper);
-
-		/*
-			Study_Shed_3
-			Study_Shed_2
-			Snack_Area
-			Road
-			PE_Building
-			BLDG_F_-_Toilet
-			BLDG_9_-_ICT_Building
-			BLDG_6
-			BLDG_54_-_FIC_Extension
-			BLDG_53_-_Residences
-			BLDG_52_Sump_Pit
-			BLDG_5_-_Old_Engineering_Building
-			BLDG_48_-_Fabrication_Laboratory
-			BLDG_47_-_Technology_Building
-			BLDG_45_-_Supply_Office
-			BLDG_44_-_Student_Center_&_Education_Complex
-			BLDG_4243_-__Engineering_Complex
-			BLDG_41_Science_Complex
-			BLDG_4_-_ROTC_Building
-			BLDG_36_-_Old_Student_Center
-			BLDG_35_-_Old_Education_Building
-			BLDG_3_-_Integrated_Tehnology_Building
-			BLDG_28_-_Old_Science_Buidling
-			BLDG_27_-_Old_Medical_Building
-			BLDG_26_-_Food_Innovation_Center
-			BLDG_25_-_Food_Innovation_Center
-			BLDG_24_-_Food_Trading_Building
-			BLDG_23_-_Learning_Resource_Center
-			BLDG_21_-_Guard_House
-			BLDG_20_-_Cafeteria
-			BLDG_19_Science_Centrum_Building
-			BLDG_18_-_Culinary_Building
-			BLDG_16_-_RER_Memorial_hall
-			BLDG_1415_-_Finance_and_Accounting_BuildingHRM_Building
-			BLDG_10_-_Administration_Building
-			BLDG_1_-_Arts_and_Culture_Building
-			Marker
-			Marker001
-			Marker002
-			Marker003
-			Marker004
-			Marker005
-			Marker006
-			Marker007
-			Marker008
-			Marker009
-			Marker010
-			Marker011
-			Marker012
-			Marker013
-			Marker014
-			Marker015
-			Marker016
-			Marker017
-			Marker018
-			Marker019
-			Marker020
-			Marker021
-			Marker022
-			Marker023
-			Marker024
-			Marker025
-			Marker026
-			Marker027
-			Trees
-			Pathway001
-			Study_Shed_4
-			Study_Shed_1
-		*/
-
-
-		/** Filter Blacklist Mesh Of Model
-			let meshGroup = world.scene.children;
-			meshGroup = meshGroup.filter(mesh => {
-				// don't include in renderer
-				return mesh.name !== 'Trees';
-			});
-			world.scene.children = meshGroup;
-		*/
-
-
-		let meshGroup = world.scene.children;
-		meshGroup = meshGroup.filter(mesh => {
-		  // Exclude objects from casting shadows
-		  return !mesh.name.startsWith('Marker');
-		});
-		world.scene.children = meshGroup;
-		
-
-
-		/** Show Polynomial Count of Model
-			let totalPolygonCount = 0;
-
-			world.scene.traverse((child) => {
-			if (child instanceof THREE.Mesh) {
-				// Access the position attribute of the mesh's geometry
-				const positionAttribute = child.geometry.getAttribute('position');
-		
-				// Get the number of vertices in the mesh's geometry
-				const vertexCount = positionAttribute.count;
-		
-				// Calculate the number of polygons (triangles) based on the number of vertices
-				const polygonCount = vertexCount / 3;
-		
-				totalPolygonCount += polygonCount;
-			}
-			});
-
-			console.log(`Polycount: ${totalPolygonCount}`);
-		*/
-	  
-
-		// Add lights, clouds, and skydome
-		this.addLights();
-		this.addSkydome();
-
-		// Prevent material reference duplication bug
-		const cloneMaterial = (mesh) => mesh.material.clone();
-
-		const noShadowCast = ['Road', 'Pathway001'];
-		const noTransparency = ['Road', 'Pathway001', 'Trees'];
-
-		let enableShaders = false;
-
-		if (enableShaders) {
-			for (let child of world.scene.children) {
-				// console.log(child.type, child.name);
-				if (child instanceof THREE.Group) {
-					child.traverse((subchild) => {
-						if (subchild instanceof THREE.Mesh) {
-							subchild.receiveShadow = true;
-							if (!noShadowCast.includes(child.name)) {
-								subchild.castShadow = true;
-							}
-							// subchild.material = cloneMaterial(subchild);	
-							if (!noTransparency.includes(child.name)) {
-								subchild.material.transparent = true;
-								subchild.material.opacity = 0.7;					
-							}
-						}
-					});
-				} 
-				
-				else if (child instanceof THREE.Mesh) {
-					// Prevent material reference duplication bug
-					child.receiveShadow = true;
-					if (!noShadowCast.includes(child.name)) {
-						child.castShadow = true;
-					}
-					// child.material = cloneMaterial(child);
-					if (!noTransparency.includes(child.name)) {
-						child.material.transparent = true;
-						child.material.opacity = 0.7;
-					}
-				}
-			}
-			this.addClouds();
-		}
-		else {			
-			for (let child of world.scene.children) {
-				// console.log(child.type, child.name);
-				if (child instanceof THREE.Group) {
-				  child.traverse((subchild) => {
-					if (subchild instanceof THREE.Mesh) {
-					  subchild.receiveShadow = true;
-					  if (!noShadowCast.includes(child.name)) {
-						subchild.castShadow = true;
-					  }
-					  // Apply flat material to each mesh while maintaining color and shadows
-					  const flatMaterial = new THREE.MeshBasicMaterial({
-						color: subchild.material.color,
-						shadowMap: true,
-						shadowSide: THREE.DoubleSide,
-					  });
-					  subchild.material = flatMaterial;
-					  if (!noTransparency.includes(child.name)) {
-						subchild.material.transparent = true;
-						subchild.material.opacity = 0.9;					
-					  }
-					}
-				  });
-				} else if (child instanceof THREE.Mesh) {
-				  child.receiveShadow = true;
-				  if (!noShadowCast.includes(child.name)) {
-					child.castShadow = true;
-				  }
-				  // Apply flat material to the mesh while maintaining color and shadows
-				  const flatMaterial = new THREE.MeshBasicMaterial({
-					color: child.material.color,
-					shadowMap: true,
-					shadowSide: THREE.DoubleSide,
-				  });
-				  child.material = flatMaterial;
-				  if (!noTransparency.includes(child.name)) {
-					child.material.transparent = true;
-					child.material.opacity = 0.9;
-				  }
-				}
-			  }
-		}
-
-		// Call a function after world is loaded
-		this.callback();
-	};
-	
-
-	onError = (error) => alert(error);	
-
-	
-	addLights = () => {
-		this.ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-		this.scene.add(this.ambientLight);
-
-		this.sunlight = new DirectionalLight(0xffffff, 1);
-		this.scene.add(this.sunlight);
-
-		this.floorLight = new THREE.DirectionalLight(0xffffff, 0.5);
-		this.floorLight.position.set(-100, -200, -100);
-		this.scene.add(this.floorLight);
-	};
-
-	addClouds = () => {
-		for (let i = 0; i < 30; i++) {
-			const cloud = new Cloud();
-			this.scene.add(cloud);
-		}
-	};
-
-	addSkydome = () => {
-		const skydome = new Skydome();
-		this.scene.add(skydome);
-	};
-}
 
   
 class Control extends _Control(THREE) {
@@ -436,6 +178,189 @@ class Control extends _Control(THREE) {
 	}
   }
   
+
+  
+  
+
+  class World {
+	constructor(scene, callback) {
+	  this.scene = scene;
+	  this.callback = callback;
+	  new _Loader().parse(_Model, '', this.onLoad, this.onError);
+	  this.enableShaders = false; // Enable shaders by default
+	  this.originalMaterials = {}; // Store original materials
+	}
+  
+	onLoad = (world) => {
+	  this.scene.add(world.scene);
+  
+	  const box = new THREE.Box3(
+		new THREE.Vector3(-200, 0, -200),
+		new THREE.Vector3(200, 800, 200)
+	  );
+	  this.border = box;
+  
+	  const boxHelper = new THREE.Box3Helper(box, 0xffff00);
+	  this.scene.add(boxHelper);
+  
+	  let meshGroup = world.scene.children;
+	  meshGroup = meshGroup.filter((mesh) => {
+		return !mesh.name.startsWith('Marker');
+	  });
+	  world.scene.children = meshGroup;
+  
+	  // Save original materials
+	  this.saveOriginalMaterials(world.scene);
+  
+	  this.addLights();
+	  this.addSkydome();
+  
+	  if (this.enableShaders) {
+		this.applyShaders();
+		this.addClouds();
+	  } else {
+		this.applyFlatMaterials();
+		this.hideClouds();
+	  }
+  
+	  this.callback();
+	};
+  
+	onError = (error) => alert(error);
+  
+	toggleShaders = () => {
+	  this.enableShaders = !this.enableShaders;
+	  if (this.enableShaders) {
+		this.applyShaders();
+		this.addClouds();
+	  } else {
+		this.applyFlatMaterials();
+		this.hideClouds();
+	  }
+	};
+  
+	applyShaders = () => {
+	  const noShadowCast = ['Road', 'Pathway001'];
+	  const noTransparency = ['Road', 'Pathway001', 'Trees'];
+  
+	  // Restore the original materials
+	  world.scene.traverse((child) => {
+		if (child instanceof THREE.Mesh && this.originalMaterials[child.uuid]) {
+		  child.material = this.originalMaterials[child.uuid];
+		  child.receiveShadow = true;
+		}
+	  });
+
+
+	  for (let child of world.scene.children) {
+		// console.log(child.type, child.name);
+		if (child instanceof THREE.Group) {
+			child.traverse((subchild) => {
+				if (subchild instanceof THREE.Mesh) {
+					subchild.receiveShadow = true;
+					if (!noShadowCast.includes(child.name)) {
+						subchild.castShadow = true;
+					}
+					// subchild.material = cloneMaterial(subchild);	
+					if (!noTransparency.includes(child.name)) {
+						subchild.material.transparent = false;
+						// subchild.material.opacity = 0.7;					
+					}
+				}
+			});
+		} 
+		
+		else if (child instanceof THREE.Mesh) {
+			// Prevent material reference duplication bug
+			child.receiveShadow = true;
+			if (!noShadowCast.includes(child.name)) {
+				child.castShadow = true;
+			}
+			// child.material = cloneMaterial(child);
+			if (!noTransparency.includes(child.name)) {
+				child.material.transparent = false;
+				// child.material.opacity = 0.7;
+			}
+		}
+	}
+
+  
+	  renderer.shadowMap.needsUpdate = true;
+	};
+  
+	applyFlatMaterials = () => {
+	//   const noTransparency = ['Road', 'Pathway001', 'Trees'];
+  
+	  for (let child of world.scene.children) {
+
+		if (child instanceof THREE.Group) {
+		  child.traverse((subchild) => {
+			if (subchild instanceof THREE.Mesh) {
+
+			  // Apply flat material to each mesh while maintaining color and shadows
+			  const flatMaterial = new THREE.MeshBasicMaterial({
+				color: subchild.material.color,
+				shadowMap: true,
+				shadowSide: THREE.DoubleSide,
+			  });
+
+			  subchild.material = flatMaterial;
+
+			//   if (!noTransparency.includes(child.name)) {
+			// 	subchild.material.transparent = true;
+			// 	subchild.material.opacity = 0.9;					
+			//   }
+			}
+		  });
+
+		} 
+	  }
+	};
+  
+	saveOriginalMaterials = (object) => {
+	  // Save original materials of meshes recursively
+	  object.traverse((child) => {
+		if (child instanceof THREE.Mesh) {
+		  this.originalMaterials[child.uuid] = child.material;
+		}
+	  });
+	};
+  
+	addLights = () => {
+	  this.ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+	  this.scene.add(this.ambientLight);
+  
+	  this.sunlight = new DirectionalLight(0xffffff, 1);
+	  this.scene.add(this.sunlight);
+  
+	  this.floorLight = new THREE.DirectionalLight(0xffffff, 0.5);
+	  this.floorLight.position.set(-100, -200, -100);
+	  this.scene.add(this.floorLight);
+	};
+  
+	addClouds = () => {
+	  for (let i = 0; i < 30; i++) {
+		const cloud = new Cloud();
+		this.scene.add(cloud);
+	  }
+	};
+  
+	hideClouds = () => {
+	  this.scene.traverse((child) => {
+		if (child instanceof Cloud) {
+		  child.visible = false;
+		}
+	  });
+	};
+  
+	addSkydome = () => {
+	  const skydome = new Skydome();
+	  this.scene.add(skydome);
+	};
+  }
+  
+
+
   
   // Create the scene, camera, renderer, and control objects
   let scene, camera, renderer, control;

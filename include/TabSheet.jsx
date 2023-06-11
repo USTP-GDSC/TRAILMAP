@@ -7,7 +7,7 @@ export default TabSheet = ({ children }) => {
   const bottomSheetRef = useRef(null);
 
   // variables
-  const snapPoints = useMemo(() => [210, 400], []);
+  const snapPoints = useMemo(() => [210, /*400*/], []);
 
   // callbacks
   const handleSheetChanges = useCallback((index) => {
@@ -25,7 +25,7 @@ export default TabSheet = ({ children }) => {
   return (
     <BottomSheet
       ref={bottomSheetRef}
-      index={-1}
+      index={0}
       snapPoints={snapPoints}
       onChange={handleSheetChanges}
       handleStyle={styles.handle}

@@ -1,20 +1,37 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+
 import TabBar from './TabBar';
-import DemoScreen from '../screens/DemoScreen';
-import NavigateScreen from '../screens/NavigateScreen';
 import { FadeInView } from './TabTransition'; 
+import NavigateScreen from '../screens/NavigateScreen';
+import SettingScreen from '../screens/SettingScreen';
 
 const Tab = createBottomTabNavigator();
 
 export default function TabWrapper() {
-  const [sheet, setSheetBody] = useState(null);
+  const [sheetBody, setSheetBody] = useState(null);
+  const [toggleShaders, setToggleShaders] = useState(false);
+  const webviewRef = useRef(null);
 
-  const handleBuildingClicked = (children) => setSheetBody(children);
+  useEffect(() => {
+    setSheetBody(<InitialSheetBody />);
+  }, []);
+
+  const handleBuildingClicked = (children) => {
+    setSheetBody(children);
+  };
+
+  const handleToggleShaders = (state) => {
+    setToggleShaders(state);
+    if (webviewRef.current) {
+      webviewRef.current.injectJavaScript("world.toggleShaders()");
+    }
+  }
+
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -22,7 +39,7 @@ export default function TabWrapper() {
         <BottomSheetModalProvider>
           <Tab.Navigator
             initialRouteName="map"
-            tabBar={props => <TabBar {...props} sheetbody={sheet} />}
+            tabBar={props => <TabBar {...props} sheetbody={sheetBody} />}
           >
             <Tab.Screen
               name="map"
@@ -30,7 +47,7 @@ export default function TabWrapper() {
             >
               {() => (
                 <FadeInView>
-                  <NavigateScreen name="map" onBuildingClicked={handleBuildingClicked} />
+                  <NavigateScreen ref={webviewRef} name="map" onBuildingClicked={handleBuildingClicked} />
                 </FadeInView>
               )}
             </Tab.Screen>
@@ -40,7 +57,7 @@ export default function TabWrapper() {
             >
               {() => (
                 <FadeInView>
-                  <DemoScreen name="settings" />
+                  <SettingScreen onToggleShaders={handleToggleShaders}/>
                 </FadeInView>
               )}
             </Tab.Screen>
@@ -50,3 +67,27 @@ export default function TabWrapper() {
     </GestureHandlerRootView>
   );
 }
+
+// InitialSheetBody component to be rendered only once
+const InitialSheetBody = () => {
+
+  const styles = StyleSheet.create({
+    container: {
+      marginTop: 10,
+    },  
+    headerText: {
+      fontSize: 20,
+      fontWeight: '500'
+    },
+    subHeaderText: {
+      color: 'grey'
+    }
+  });
+  // Initial body content
+  return (
+    <View style={styles.container}>
+      <Text style={styles.headerText}>Welcome To Trailmap Beta Test!</Text>
+      <Text style={styles.subHeaderText}>by Google Developer Student Clubs USTP</Text>
+    </View>
+  );
+};
