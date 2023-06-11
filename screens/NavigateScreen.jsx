@@ -59,13 +59,152 @@ export default NavigateScreen = forwardRef(({ onBuildingClicked }, ref) => {
 		);
 	});
 
-	const handleWebviewMessage = event => {	  
+	
+	const SheetBuildingInfo = (name, bldgno) => {
+		
+		const infoStyle = StyleSheet.create({
+		  container: {
+			backgroundColor: '#D2EEFF',
+			paddingVertical: 10,
+			paddingHorizontal: 15,
+			flexDirection: 'row',
+			alignItems: 'center',
+			borderRadius: 12,
+			height: 80,
+		  },
+		  supheader: {
+			fontSize: 12,
+			color: 'grey',
+		  },
+		  header: {
+			fontSize: 15,
+			fontWeight: 'bold',
+		  },
+		  iconBody: {
+			backgroundColor: '#3182CE',
+			borderRadius: 45,
+			width: 45,
+			height: 45,
+			flexDirection: 'row',
+			alignItems: 'center',
+			justifyContent: 'center',
+		  },
+		  information: {
+			marginLeft: 12,
+			// borderWidth: 2,
+			// borderColor: 'green',
+			flex: 1,
+			justifyContent: 'center',
+		  },
+		  textContainer: {
+			justifyContent: 'center',
+			flex: 1,
+		  },
+		});
+	  
+		return (
+		  <View style={infoStyle.container}>
+			<View style={infoStyle.iconBody}>
+			  <Icon name="map-pin" size={24} color="#ffffff" />
+			</View>
+			<View style={infoStyle.information}>
+			  <View style={infoStyle.textContainer}>
+				{
+					bldgno !== undefined &&
+					<Text style={infoStyle.supheader}>Building {bldgno}</Text>
+				}
+				<Text style={infoStyle.header} numberOfLines={2}>
+				  {name}
+				</Text>
+			  </View>
+			</View>
+		  </View>
+		);
+	};
+
+	const SheetRoomInfo = (rooms) => {
+		const infoStyle = StyleSheet.create({
+		  container: {
+			backgroundColor: '#D2EEFF',
+			padding: 20,
+			borderRadius: 12,
+			marginTop: 20,
+		  },
+		  supheader: {
+			fontSize: 12,
+			color: 'grey',
+		  },
+		  header: {
+			fontSize: 15,
+			fontWeight: 'bold',
+		  },
+		  iconBody: {
+			backgroundColor: '#38A169',
+			borderRadius: 45,
+			width: 45,
+			height: 45,
+			flexDirection: 'row',
+			alignItems: 'center',
+			justifyContent: 'center',
+		  },
+		  information: {
+			marginLeft: 12,
+			flex: 1,
+			justifyContent: 'center',
+		  },
+		  textContainer: {
+			justifyContent: 'center',
+			flex: 1,
+		  },
+		  floorHeader: {
+			fontSize: 17,
+			fontWeight: 'bold',
+			marginBottom: 5,
+		  },
+		  roomName: {
+			fontSize: 12,
+			marginBottom: 2,
+		  },
+		});
+
+		const floorIdToNameMap = {
+			f1: '1st Floor',
+			f2: '2nd Floor',
+			f3: '3rd Floor',
+			f4: '4th Floor',
+			f5: '5th Floor',
+			f6: '6th Floor',
+			f7: '7th Floor',
+			f8: '8th Floor',
+			f9: '9th Floor',
+		};
+	  
+		return (
+		  <View>
+			{Object.keys(rooms).map(floor => (
+			  <View key={floor} style={infoStyle.container}>
+				<Text style={infoStyle.floorHeader}>{floorIdToNameMap[floor]}</Text>
+				{rooms[floor].map(room => (
+					<Text key={room} style={infoStyle.roomName}>{room}</Text>
+				))}
+			  </View>
+			))}
+		  </View>
+		);
+	  };
+	  
+	const handleWebviewMessage = event => {	  	  
 
 		if (event.nativeEvent.data.startsWith("onBuildingClick")) {
 
 			const key = event.nativeEvent.data.substr(17);
+			const name = jsondata[key].name.replace(/\[.*?\]/g, '').trim();
+			const bldgno = jsondata[key].no;
+			const rooms = jsondata[key].rooms;
 
-			onBuildingClicked(SheetBuildingInfo(key));
+			(rooms === undefined) 
+				? onBuildingClicked(SheetBuildingInfo(name, bldgno))
+				: onBuildingClicked(SheetBuildingInfo(name, bldgno), SheetRoomInfo(rooms));
 		}
 	};
 
@@ -136,69 +275,6 @@ export default NavigateScreen = forwardRef(({ onBuildingClicked }, ref) => {
 	  }
 	}, [isFocused]);
 
-	const SheetBuildingInfo = (key) => {
-		const name = jsondata[key].name.replace(/\[.*?\]/g, '').trim();
-		const bldgno = jsondata[key].no;
-	  
-		const infoStyle = StyleSheet.create({
-		  container: {
-			backgroundColor: '#D2EEFF',
-			paddingVertical: 10,
-			paddingHorizontal: 15,
-			flexDirection: 'row',
-			alignItems: 'center',
-			borderRadius: 12,
-			height: 80,
-		  },
-		  supheader: {
-			fontSize: 12,
-			color: 'grey',
-		  },
-		  header: {
-			fontSize: 15,
-			fontWeight: 'bold',
-		  },
-		  iconBody: {
-			backgroundColor: '#3182CE',
-			borderRadius: 45,
-			width: 45,
-			height: 45,
-			flexDirection: 'row',
-			alignItems: 'center',
-			justifyContent: 'center',
-		  },
-		  information: {
-			marginLeft: 12,
-			// borderWidth: 2,
-			// borderColor: 'green',
-			flex: 1,
-			justifyContent: 'center',
-		  },
-		  textContainer: {
-			justifyContent: 'center',
-			flex: 1,
-		  },
-		});
-	  
-		return (
-		  <View style={infoStyle.container}>
-			<View style={infoStyle.iconBody}>
-			  <Icon name="map-pin" size={24} color="#ffffff" />
-			</View>
-			<View style={infoStyle.information}>
-			  <View style={infoStyle.textContainer}>
-				{
-					bldgno !== undefined &&
-					<Text style={infoStyle.supheader}>Building {bldgno}</Text>
-				}
-				<Text style={infoStyle.header} numberOfLines={2}>
-				  {name}
-				</Text>
-			  </View>
-			</View>
-		  </View>
-		);
-	};
 	  
 
 	// handle search results to dropdown

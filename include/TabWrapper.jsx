@@ -13,16 +13,27 @@ import SettingScreen from '../screens/SettingScreen';
 const Tab = createBottomTabNavigator();
 
 export default function TabWrapper() {
-  const [sheetBody, setSheetBody] = useState(null);
+  const [firstSheetBody, setFirstSheetBody] = useState(null);
+  const [secondSheetBody, setSecondSheetBody] = useState(null);
+  const [thirdSheetBody, setThirdSheetBody] = useState(null);
   const [toggleShaders, setToggleShaders] = useState(false);
+  const [snapPoints, setSnapPoints] = useState([210]);
   const webviewRef = useRef(null);
 
   useEffect(() => {
-    setSheetBody(<InitialSheetBody />);
+    setFirstSheetBody(<InitialSheetBody />);
   }, []);
 
-  const handleBuildingClicked = (children) => {
-    setSheetBody(children);
+  const handleBuildingClicked = (bldgInfo, roomInfo) => {
+    setFirstSheetBody(bldgInfo);
+    
+    if (roomInfo !== undefined) {
+      setSecondSheetBody(roomInfo);
+      setSnapPoints([210, '100%']); // 350 add on middle if room is searched
+    }
+    else {
+      setSnapPoints([210]);
+    }
   };
 
   const handleToggleShaders = (state) => {
@@ -39,7 +50,14 @@ export default function TabWrapper() {
         <BottomSheetModalProvider>
           <Tab.Navigator
             initialRouteName="map"
-            tabBar={props => <TabBar {...props} sheetbody={sheetBody} />}
+            tabBar={
+              props => 
+                <TabBar {...props} 
+                  firstSheetBody={firstSheetBody} 
+                  secondSheetBody={secondSheetBody} 
+                  thirdtSheetBody={thirdSheetBody} 
+                  snapPoints={snapPoints} />
+            }
           >
             <Tab.Screen
               name="map"
