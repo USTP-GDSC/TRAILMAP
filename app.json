@@ -25,7 +25,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/image/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.anonymous.ustptrailmap"
     },
     "web": {
       "favicon": "./assets/image/favicon.png"
